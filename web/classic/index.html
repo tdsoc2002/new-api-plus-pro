@@ -8,22 +8,101 @@
     <meta
       name="description"
       lang="zh"
-      content="统一的 AI 模型聚合与分发网关，支持将各类大语言模型跨格式转换为 OpenAI、Claude、Gemini 兼容接口，为个人与企业提供集中式模型管理与网关服务。"
+      content="源点QuickAPI - 统一的 AI 模型聚合与分发网关，支持将各类大语言模型跨格式转换为 OpenAI、Claude、Gemini 兼容接口，为个人与企业提供集中式模型管理与网关服务。"
     />
     <meta
       name="description"
       lang="en"
-      content="A unified AI model hub for aggregation & distribution. It supports cross-converting various LLMs into OpenAI-compatible, Claude-compatible, or Gemini-compatible formats. A centralized gateway for personal and enterprise model management."
+      content="QuickAPI - A unified AI model hub for aggregation & distribution. It supports cross-converting various LLMs into OpenAI-compatible, Claude-compatible, or Gemini-compatible formats. A centralized gateway for personal and enterprise model management."
     />
-    <meta name="generator" content="new-api" />
-    <title>New API</title>
+    <meta name="generator" content="quickapi" />
+    <title>源点QuickAPI - 统一AI接口管理平台</title>
     <!--umami-->
     <!--Google Analytics-->
+
+    <style>
+      /* 加载动画样式 */
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+
+      #loading-screen.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .loading-logo {
+        font-size: 48px;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 30px;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .loading-text {
+        margin-top: 20px;
+        color: white;
+        font-size: 16px;
+        opacity: 0.9;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.8; transform: scale(1.05); }
+      }
+    </style>
   </head>
 
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <!-- 加载动画 -->
+    <div id="loading-screen">
+      <div class="loading-logo">源点QuickAPI</div>
+      <div class="loading-spinner"></div>
+      <div class="loading-text">正在加载中...</div>
+    </div>
+
     <div id="root"></div>
     <script type="module" src="/src/index.jsx"></script>
+
+    <script>
+      // 当页面加载完成后隐藏加载动画
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.classList.add('fade-out');
+            setTimeout(function() {
+              loadingScreen.style.display = 'none';
+            }, 500);
+          }
+        }, 500);
+      });
+    </script>
   </body>
 </html>
