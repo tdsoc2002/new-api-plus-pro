@@ -17,10 +17,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import { Link } from '@tanstack/react-router'
-import { ArrowRight } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { Sparkles, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { AnimateInView } from '@/components/animate-in-view'
 
 interface CTAProps {
   className?: string
@@ -28,56 +26,77 @@ interface CTAProps {
 }
 
 export function CTA(props: CTAProps) {
-  const { t } = useTranslation()
-
   if (props.isAuthenticated) {
     return null
   }
 
   return (
     <section className='relative z-10 overflow-hidden px-6 py-24 md:py-32'>
-      {/* Gradient mesh background */}
+      {/* 渐变背景 */}
       <div
         aria-hidden
-        className='absolute inset-0 -z-10 opacity-20 dark:opacity-[0.08]'
+        className='absolute inset-0 -z-10'
         style={{
           background: [
-            'radial-gradient(ellipse 50% 50% at 30% 50%, oklch(0.7 0.15 250 / 70%) 0%, transparent 70%)',
-            'radial-gradient(ellipse 40% 40% at 70% 40%, oklch(0.65 0.12 200 / 50%) 0%, transparent 70%)',
+            'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(120, 119, 198, 0.2), transparent 70%)',
+            'radial-gradient(ellipse 60% 50% at 30% 50%, rgba(189, 147, 249, 0.15), transparent 70%)',
           ].join(', '),
         }}
       />
 
-      <AnimateInView
-        className='mx-auto max-w-2xl text-center'
-        animation='scale-in'
-      >
-        <h2 className='text-2xl leading-tight font-bold tracking-tight md:text-4xl'>
-          {t('Ready to simplify')}
+      <div className='mx-auto max-w-4xl text-center'>
+        {/* 主标题 */}
+        <h2 className='mb-6 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 md:text-5xl'>
+          准备好开启
           <br />
-          <span className='bg-gradient-to-r from-blue-400 via-violet-400 to-purple-500 bg-clip-text text-transparent'>
-            {t('your AI integration?')}
+          <span className='bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
+            AI 创作之旅了吗？
           </span>
         </h2>
-        <p className='text-muted-foreground/80 mx-auto mt-5 max-w-md text-sm leading-relaxed md:text-base'>
-          {t(
-            'Deploy your own gateway and start routing requests through your configured upstream services.'
-          )}
+
+        {/* 副标题 */}
+        <p className='mx-auto mb-10 max-w-2xl text-lg text-gray-600 dark:text-gray-400'>
+          立即注册，获取 API 密钥，开始使用顶级 AI 模型生成图片和视频
         </p>
-        <div className='mt-8 flex items-center justify-center gap-3'>
-          <Button className='group rounded-lg' render={<Link to='/sign-up' />}>
-            {t('Get Started')}
-            <ArrowRight className='ml-1 size-3.5 transition-transform duration-200 group-hover:translate-x-0.5' />
+
+        {/* CTA 按钮 */}
+        <div className='flex flex-col items-center justify-center gap-4 sm:flex-row'>
+          <Button asChild size='lg' className='group h-12 px-8 text-base'>
+            <Link to='/login'>
+              <Sparkles className='mr-2 h-5 w-5' />
+              立即开始
+              <ArrowRight className='ml-2 h-5 w-5 transition-transform group-hover:translate-x-1' />
+            </Link>
           </Button>
-          <Button
-            variant='outline'
-            className='border-border/50 hover:border-border hover:bg-muted/50 rounded-lg'
-            render={<Link to='/pricing' />}
-          >
-            {t('View Pricing')}
+          <Button asChild variant='outline' size='lg' className='h-12 px-8 text-base'>
+            <Link to='/pricing'>
+              查看定价
+            </Link>
           </Button>
         </div>
-      </AnimateInView>
+
+        {/* 信任标记 */}
+        <div className='mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500 dark:text-gray-500'>
+          <div className='flex items-center gap-2'>
+            <svg className='h-5 w-5 text-green-500' fill='currentColor' viewBox='0 0 20 20'>
+              <path fillRule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z' clipRule='evenodd' />
+            </svg>
+            <span>无需信用卡</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <svg className='h-5 w-5 text-green-500' fill='currentColor' viewBox='0 0 20 20'>
+              <path fillRule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z' clipRule='evenodd' />
+            </svg>
+            <span>即刻使用</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <svg className='h-5 w-5 text-green-500' fill='currentColor' viewBox='0 0 20 20'>
+              <path fillRule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z' clipRule='evenodd' />
+            </svg>
+            <span>随时取消</span>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }

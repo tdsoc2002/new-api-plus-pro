@@ -16,71 +16,77 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { Settings, Zap, BarChart3 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { AnimateInView } from '@/components/animate-in-view'
+import { UserPlus, Key, Sparkles } from 'lucide-react'
 
 export function HowItWorks() {
-  const { t } = useTranslation()
-
   const steps = [
     {
-      num: '1',
-      title: t('Configure'),
-      desc: t(
-        'Add your API keys, set up channels and configure access permissions'
-      ),
-      icon: <Settings className='size-6' strokeWidth={1.5} />,
+      num: '01',
+      title: '注册账号',
+      desc: '快速注册，无需信用卡，即刻开始使用',
+      icon: UserPlus,
+      color: 'from-purple-500 to-pink-500',
     },
     {
-      num: '2',
-      title: t('Connect'),
-      desc: t(
-        'Connect through OpenAI, Claude, Gemini, and other compatible API routes'
-      ),
-      icon: <Zap className='size-6' strokeWidth={1.5} />,
+      num: '02',
+      title: '获取密钥',
+      desc: '在控制台创建 API 密钥，配置使用额度',
+      icon: Key,
+      color: 'from-pink-500 to-rose-500',
     },
     {
-      num: '3',
-      title: t('Monitor'),
-      desc: t('Track usage, costs and performance with real-time analytics'),
-      icon: <BarChart3 className='size-6' strokeWidth={1.5} />,
+      num: '03',
+      title: '开始创作',
+      desc: '调用 API 接口，生成精美图片和视频',
+      icon: Sparkles,
+      color: 'from-rose-500 to-orange-500',
     },
   ]
 
   return (
-    <section className='border-border/40 relative z-10 border-t px-6 py-24 md:py-32'>
-      <div className='mx-auto max-w-6xl'>
-        <AnimateInView className='mb-16 text-center md:mb-20'>
-          <p className='text-muted-foreground mb-3 text-xs font-medium tracking-widest uppercase'>
-            {t('How It Works')}
-          </p>
-          <h2 className='text-2xl font-bold tracking-tight md:text-3xl'>
-            {t('Three steps to get started')}
+    <section className='relative px-6 py-24 md:py-32'>
+      <div className='mx-auto max-w-7xl'>
+        {/* 标题 */}
+        <div className='mb-16 text-center'>
+          <h2 className='mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 md:text-4xl'>
+            三步开始使用
           </h2>
-        </AnimateInView>
+          <p className='mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400'>
+            简单快速，5 分钟即可完成集成
+          </p>
+        </div>
 
-        <div className='grid gap-8 md:grid-cols-3 md:gap-12'>
-          {steps.map((step, i) => (
-            <AnimateInView
-              key={step.num}
-              delay={i * 150}
-              animation='fade-up'
-              className='relative flex flex-col items-center text-center'
-            >
-              <div className='relative mb-6'>
-                <div className='text-muted-foreground border-border/50 bg-muted/30 flex size-16 items-center justify-center rounded-2xl border transition-colors'>
-                  {step.icon}
+        {/* 步骤 */}
+        <div className='grid gap-12 md:grid-cols-3'>
+          {steps.map((step, index) => (
+            <div key={index} className='relative flex flex-col items-center text-center'>
+              {/* 连接线 */}
+              {index < steps.length - 1 && (
+                <div className='absolute top-12 left-1/2 hidden h-0.5 w-full bg-gradient-to-r from-gray-300 to-gray-200 dark:from-gray-700 dark:to-gray-800 md:block' />
+              )}
+
+              {/* 图标 */}
+              <div className='relative z-10 mb-6'>
+                <div
+                  className={`flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br ${step.color} shadow-lg`}
+                >
+                  <step.icon className='h-12 w-12 text-white' />
                 </div>
-                <div className='bg-foreground text-background absolute -top-2 -right-2 flex size-6 items-center justify-center rounded-full text-xs font-bold'>
+                <div className='absolute -bottom-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm font-bold text-gray-900 shadow-md dark:bg-gray-900 dark:text-gray-100'>
                   {step.num}
                 </div>
               </div>
-              <h3 className='mb-2 text-base font-semibold'>{step.title}</h3>
-              <p className='text-muted-foreground max-w-[240px] text-sm leading-relaxed'>
+
+              {/* 标题 */}
+              <h3 className='mb-2 text-xl font-semibold text-gray-900 dark:text-gray-100'>
+                {step.title}
+              </h3>
+
+              {/* 描述 */}
+              <p className='max-w-xs text-gray-600 dark:text-gray-400'>
                 {step.desc}
               </p>
-            </AnimateInView>
+            </div>
           ))}
         </div>
       </div>

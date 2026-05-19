@@ -17,10 +17,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import { Link } from '@tanstack/react-router'
-import { ArrowRight } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { Sparkles, Video, Image as ImageIcon, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { HeroTerminalDemo } from '../hero-terminal-demo'
 
 interface HeroProps {
   className?: string
@@ -28,83 +26,91 @@ interface HeroProps {
 }
 
 export function Hero(props: HeroProps) {
-  const { t } = useTranslation()
-
   return (
-    <section className='relative z-10 flex flex-col items-center overflow-hidden px-6 pt-28 pb-16 md:pt-36 md:pb-24'>
-      {/* Radial gradient background */}
+    <section className='relative z-10 flex flex-col items-center overflow-hidden px-6 pt-32 pb-20 md:pt-40 md:pb-32'>
+      {/* 动态渐变背景 */}
       <div
         aria-hidden
-        className='pointer-events-none absolute inset-0 -z-10 opacity-25 dark:opacity-[0.12]'
+        className='pointer-events-none absolute inset-0 -z-10'
         style={{
           background: [
-            'radial-gradient(ellipse 60% 50% at 20% 20%, oklch(0.72 0.18 250 / 80%) 0%, transparent 70%)',
-            'radial-gradient(ellipse 50% 40% at 80% 15%, oklch(0.65 0.15 200 / 60%) 0%, transparent 70%)',
-            'radial-gradient(ellipse 40% 35% at 40% 80%, oklch(0.70 0.12 280 / 40%) 0%, transparent 70%)',
+            'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(120, 119, 198, 0.3), transparent 50%)',
+            'radial-gradient(ellipse 60% 50% at 80% 50%, rgba(189, 147, 249, 0.2), transparent 50%)',
           ].join(', '),
         }}
       />
-      {/* Grid pattern */}
+
+      {/* 装饰性网格 */}
       <div
         aria-hidden
-        className='absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_30%,black_20%,transparent_100%)] bg-[size:4rem_4rem] opacity-[0.08]'
+        className='absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,black_10%,transparent_100%)] bg-[size:4rem_4rem] opacity-[0.05]'
       />
 
-      <div className='flex max-w-3xl flex-col items-center text-center'>
-        <h1
-          className='landing-animate-fade-up text-[clamp(2rem,5.5vw,3.5rem)] leading-[1.15] font-bold tracking-tight'
-          style={{ animationDelay: '0ms' }}
-        >
-          {t('Unified API Gateway for')}
+      {/* 主标题区域 */}
+      <div className='relative z-10 mx-auto max-w-5xl text-center'>
+        {/* 标签 */}
+        <div className='mb-6 inline-flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/10 px-4 py-2 text-sm font-medium text-purple-600 dark:text-purple-400'>
+          <Sparkles className='h-4 w-4' />
+          <span>AI 创作新纪元</span>
+        </div>
+
+        {/* 主标题 */}
+        <h1 className='mb-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-600 bg-clip-text text-5xl font-bold leading-tight tracking-tight text-transparent dark:from-gray-100 dark:via-gray-300 dark:to-gray-500 md:text-7xl'>
+          AI 图片与视频
           <br />
-          <span className='bg-gradient-to-r from-blue-400 via-violet-400 to-purple-500 bg-clip-text text-transparent'>
-            {t('All Your AI Models')}
+          <span className='bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
+            一键生成
           </span>
         </h1>
-        <p
-          className='landing-animate-fade-up text-muted-foreground/80 mt-5 max-w-lg text-base leading-relaxed opacity-0 md:text-lg'
-          style={{ animationDelay: '80ms' }}
-        >
-          {t('Power AI applications, manage digital assets, connect the Future')}
+
+        {/* 副标题 */}
+        <p className='mx-auto mb-10 max-w-2xl text-lg text-gray-600 dark:text-gray-400 md:text-xl'>
+          聚合顶级 AI 模型，提供统一 API 接口
+          <br />
+          让创意触手可及，让想象成为现实
         </p>
-        <div
-          className='landing-animate-fade-up mt-8 flex items-center gap-3 opacity-0'
-          style={{ animationDelay: '160ms' }}
-        >
+
+        {/* CTA 按钮 */}
+        <div className='flex flex-col items-center justify-center gap-4 sm:flex-row'>
           {props.isAuthenticated ? (
-            <Button
-              className='group rounded-lg'
-              render={<Link to='/dashboard' />}
-            >
-              {t('Go to Dashboard')}
-              <ArrowRight className='ml-1 size-3.5 transition-transform duration-200 group-hover:translate-x-0.5' />
+            <Button asChild size='lg' className='group h-12 px-8 text-base'>
+              <Link to='/panel'>
+                <Zap className='mr-2 h-5 w-5' />
+                进入控制台
+              </Link>
             </Button>
           ) : (
             <>
-              <Button
-                className='group rounded-lg'
-                render={<Link to='/sign-up' />}
-              >
-                {t('Get Started')}
-                <ArrowRight className='ml-1 size-3.5 transition-transform duration-200 group-hover:translate-x-0.5' />
+              <Button asChild size='lg' className='group h-12 px-8 text-base'>
+                <Link to='/login'>
+                  <Sparkles className='mr-2 h-5 w-5' />
+                  立即开始
+                </Link>
               </Button>
-              <Button
-                variant='outline'
-                className='border-border/50 hover:border-border hover:bg-muted/50 rounded-lg'
-                render={<Link to='/pricing' />}
-              >
-                {t('View Pricing')}
+              <Button asChild variant='outline' size='lg' className='h-12 px-8 text-base'>
+                <Link to='/pricing'>
+                  查看定价
+                </Link>
               </Button>
             </>
           )}
         </div>
-      </div>
 
-      <div
-        className='landing-animate-fade-up w-full opacity-0'
-        style={{ animationDelay: '300ms' }}
-      >
-        <HeroTerminalDemo />
+        {/* 特性标签 */}
+        <div className='mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600 dark:text-gray-400'>
+          <div className='flex items-center gap-2'>
+            <ImageIcon className='h-4 w-4 text-purple-600' />
+            <span>文生图 / 图生图</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <Video className='h-4 w-4 text-pink-600' />
+            <span>文生视频 / 图生视频</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <Zap className='h-4 w-4 text-blue-600' />
+            <span>秒级响应</span>
+          </div>
+        </div>
       </div>
     </section>
   )
