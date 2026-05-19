@@ -1,0 +1,94 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  # 第一步：运行测试
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Run tests
+        run: go test -v ./...
+
+  # 第二步：构建并部署
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: |
+          VERSION=$(git rev-parse --short HEAD)
+          docker build -t new-api:$VERSION -t new-api:latest .
+          docker save new-api:latest | gzip > new-api.tar.gz
+
+      - name: Copy files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "new-api.tar.gz,docker-compose.prod.yml"
+          target: "/opt/new-api"
+
+      - name: Deploy on server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            cd /opt/new-api
+
+            echo "=== 加载新镜像 ==="
+            docker load < new-api.tar.gz
+            rm -f new-api.tar.gz
+
+            echo "=== 更新版本号 ==="
+            VERSION=$(git rev-parse --short HEAD 2>/dev/null || echo "latest")
+            sed -i "s/VERSION=.*/VERSION=$VERSION/" .env 2>/dev/null || echo "VERSION=$VERSION" >> .env
+
+            echo "=== 停止旧容器 ==="
+            docker-compose -f docker-compose.prod.yml down
+
+            echo "=== 启动新容器 ==="
+            docker-compose -f docker-compose.prod.yml up -d
+
+            echo "=== 等待服务启动 ==="
+            sleep 10
+
+            echo "=== 健康检查 ==="
+            for i in {1..30}; do
+              if curl -f http://localhost:3000/api/status 2>/dev/null | grep -q '"success":true'; then
+                echo "✓ 服务启动成功"
+                break
+              fi
+              if [ $i -eq 30 ]; then
+                echo "✗ 健康检查失败，回滚..."
+                docker-compose -f docker-compose.prod.yml logs --tail=50
+                exit 1
+              fi
+              echo "等待服务启动... ($i/30)"
+              sleep 2
+            done
+
+            echo "=== 清理旧镜像 ==="
+            docker image prune -af --filter "until=24h"
+
+            echo "=== 部署完成 ==="
+            docker-compose -f docker-compose.prod.yml ps
