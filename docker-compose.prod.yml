@@ -15,7 +15,8 @@ version: '3.8'
 
 services:
   new-api:
-    image: calciumion/new-api:latest
+    build: .
+    image: new-api:${VERSION:-latest}
     container_name: new-api
     restart: unless-stopped
     command: --log-dir /app/logs
