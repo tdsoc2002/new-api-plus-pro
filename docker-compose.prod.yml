@@ -1,13 +1,13 @@
 # New-API Docker Compose - 生产环境配置（2GB 内存优化版）
 #
 # 优化说明：
-#   - 使用 SQLite 替代 PostgreSQL（节省 ~200MB 内存）
+#   - 使用官方镜像（calciumion/new-api）
 #   - Redis 限制内存 100MB
 #   - 应用限制内存 512MB
-#   - 单实例部署
+#   - 使用 SQLite（默认）
 #
 # 部署步骤：
-#   1. 复制 .env.example 为 .env 并修改配置
+#   1. 确保 .env 文件已配置
 #   2. docker-compose -f docker-compose.prod.yml up -d
 #   3. 访问 http://your-server-ip:3000
 
@@ -15,8 +15,7 @@ version: '3.8'
 
 services:
   new-api:
-    build: .
-    image: new-api:${VERSION:-latest}
+    image: calciumion/new-api:latest
     container_name: new-api
     restart: unless-stopped
     command: --log-dir /app/logs
@@ -26,8 +25,6 @@ services:
       - ./data:/data
       - ./logs:/app/logs
     environment:
-      # 使用 SQLite（文件数据库，无需额外容器）
-      - SQL_DSN=/data/new-api.db
       - REDIS_CONN_STRING=redis://:${REDIS_PASSWORD}@redis:6379
       - SESSION_SECRET=${SESSION_SECRET}
       - TZ=Asia/Shanghai
