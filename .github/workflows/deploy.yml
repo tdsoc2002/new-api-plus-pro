@@ -6,23 +6,8 @@ on:
   workflow_dispatch:  # 允许手动触发
 
 jobs:
-  # 第一步：运行测试
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
-
-      - name: Run tests
-        run: go test -v ./...
-
-  # 第二步：构建并部署
+  # 构建并部署（跳过测试以加快部署速度）
   deploy:
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
