@@ -51,23 +51,23 @@ export function Hero(props: HeroProps) {
         {/* 标签 */}
         <div className='mb-6 inline-flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/10 px-4 py-2 text-sm font-medium text-purple-600 dark:text-purple-400'>
           <Sparkles className='h-4 w-4' />
-          <span>AI 创作新纪元</span>
+          <span>AI 创作，一站搞定</span>
         </div>
 
         {/* 主标题 */}
         <h1 className='mb-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-600 bg-clip-text text-5xl font-bold leading-tight tracking-tight text-transparent dark:from-gray-100 dark:via-gray-300 dark:to-gray-500 md:text-7xl'>
-          AI 图片与视频
+          视频生成 · 图片创作
           <br />
           <span className='bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
-            一键生成
+            智能对话
           </span>
         </h1>
 
         {/* 副标题 */}
         <p className='mx-auto mb-10 max-w-2xl text-lg text-gray-600 dark:text-gray-400 md:text-xl'>
-          聚合顶级 AI 模型，提供统一 API 接口
+          聚合 40+ 顶级 AI 模型，统一账户管理
           <br />
-          让创意触手可及，让想象成为现实
+          透明计费 · 成本可控 · 开箱即用
         </p>
 
         {/* CTA 按钮 */}
@@ -84,7 +84,7 @@ export function Hero(props: HeroProps) {
               <Button asChild size='lg' className='group h-12 px-8 text-base'>
                 <Link to='/login'>
                   <Sparkles className='mr-2 h-5 w-5' />
-                  立即开始
+                  免费开始创作
                 </Link>
               </Button>
               <Button asChild variant='outline' size='lg' className='h-12 px-8 text-base'>
@@ -99,16 +99,20 @@ export function Hero(props: HeroProps) {
         {/* 特性标签 */}
         <div className='mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600 dark:text-gray-400'>
           <div className='flex items-center gap-2'>
-            <ImageIcon className='h-4 w-4 text-purple-600' />
-            <span>文生图 / 图生图</span>
+            <Video className='h-4 w-4 text-purple-600' />
+            <span>AI 视频生成</span>
           </div>
           <div className='flex items-center gap-2'>
-            <Video className='h-4 w-4 text-pink-600' />
-            <span>文生视频 / 图生视频</span>
+            <ImageIcon className='h-4 w-4 text-pink-600' />
+            <span>AI 图片创作</span>
           </div>
           <div className='flex items-center gap-2'>
-            <Zap className='h-4 w-4 text-blue-600' />
-            <span>秒级响应</span>
+            <Sparkles className='h-4 w-4 text-blue-600' />
+            <span>智能 AI 对话</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <Zap className='h-4 w-4 text-green-600' />
+            <span>统一计费管理</span>
           </div>
         </div>
       </div>

@@ -23,10 +23,10 @@ interface StatsProps {
 
 export function Stats(_props: StatsProps) {
   const stats = [
-    { value: '10+', label: 'AI 模型' },
+    { value: '40+', label: 'AI 模型' },
+    { value: '10万+', label: '活跃用户' },
+    { value: '500万+', label: '作品生成' },
     { value: '99.9%', label: '服务可用性' },
-    { value: '<2s', label: '平均响应时间' },
-    { value: '24/7', label: '技术支持' },
   ]
 
   return (

@@ -16,7 +16,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { Image as ImageIcon, Video, Wand2, Zap, Shield, Code } from 'lucide-react'
+import { Image as ImageIcon, Video, MessageSquare, Wallet, BarChart3, Shield } from 'lucide-react'
 
 interface FeaturesProps {
   className?: string
@@ -25,39 +25,39 @@ interface FeaturesProps {
 export function Features(_props: FeaturesProps) {
   const features = [
     {
-      icon: ImageIcon,
-      title: 'AI 图片生成',
-      description: '支持 DALL-E、Midjourney、Stable Diffusion 等主流模型，文生图、图生图一应俱全',
+      icon: Video,
+      title: 'AI 视频生成',
+      description: '集成 Runway、Pika、Sora 等顶级模型，从文字到视频，从图片到动画，专业级视频创作',
       gradient: 'from-purple-500 to-pink-500',
     },
     {
-      icon: Video,
-      title: 'AI 视频生成',
-      description: '集成 Runway、Pika、Sora 等视频生成模型，轻松创作专业级视频内容',
+      icon: ImageIcon,
+      title: 'AI 图片创作',
+      description: '支持 DALL-E、Midjourney、Stable Diffusion，文生图、图生图、风格迁移，创意无限',
       gradient: 'from-pink-500 to-rose-500',
     },
     {
-      icon: Wand2,
-      title: '智能优化',
-      description: '自动优化提示词，智能调整参数，让每一次生成都达到最佳效果',
+      icon: MessageSquare,
+      title: '智能 AI 对话',
+      description: 'GPT-4、Claude、Gemini 等大语言模型，写脚本、改文案、提供灵感，创作好帮手',
       gradient: 'from-blue-500 to-cyan-500',
     },
     {
-      icon: Zap,
-      title: '极速响应',
-      description: '分布式架构，智能负载均衡，确保每个请求都能快速响应',
+      icon: Wallet,
+      title: '统一计费',
+      description: '一个账户管理所有 AI 服务，告别多平台充值，按需付费，灵活充值，企业可月结',
       gradient: 'from-cyan-500 to-teal-500',
     },
     {
-      icon: Shield,
-      title: '安全可靠',
-      description: '企业级安全保障，数据加密传输，完善的权限管理和审计日志',
+      icon: BarChart3,
+      title: '消费透明',
+      description: '每笔花费清晰可查，按模型、按时间、按项目统计，成本一目了然，预算心中有数',
       gradient: 'from-teal-500 to-green-500',
     },
     {
-      icon: Code,
-      title: '简单易用',
-      description: '统一的 API 接口，完善的文档和示例，5 分钟即可完成集成',
+      icon: Shield,
+      title: '成本可控',
+      description: '设置预算上限防止超支，团队额度分配，企业级权限管理，完整审计日志',
       gradient: 'from-green-500 to-emerald-500',
     },
   ]
@@ -68,10 +68,10 @@ export function Features(_props: FeaturesProps) {
         {/* 标题 */}
         <div className='mb-16 text-center'>
           <h2 className='mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 md:text-4xl'>
-            强大的功能特性
+            创作能力 + 管理能力
           </h2>
           <p className='mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400'>
-            一站式 AI 创作平台，满足您的所有需求
+            强大的 AI 创作工具，配合透明的计费管理
           </p>
         </div>
 

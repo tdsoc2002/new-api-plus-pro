@@ -16,29 +16,29 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { UserPlus, Key, Sparkles } from 'lucide-react'
+import { Wallet, Sparkles, BarChart3 } from 'lucide-react'
 
 export function HowItWorks() {
   const steps = [
     {
       num: '01',
-      title: '注册账号',
-      desc: '快速注册，无需信用卡，即刻开始使用',
-      icon: UserPlus,
+      title: '充值额度',
+      desc: '注册账户，选择套餐或按需充值，灵活付费',
+      icon: Wallet,
       color: 'from-purple-500 to-pink-500',
     },
     {
       num: '02',
-      title: '获取密钥',
-      desc: '在控制台创建 API 密钥，配置使用额度',
-      icon: Key,
+      title: '开始创作',
+      desc: '使用视频生成、图片创作、AI 对话等服务',
+      icon: Sparkles,
       color: 'from-pink-500 to-rose-500',
     },
     {
       num: '03',
-      title: '开始创作',
-      desc: '调用 API 接口，生成精美图片和视频',
-      icon: Sparkles,
+      title: '查看消费',
+      desc: '实时查看消费明细，按模型、按时间统计',
+      icon: BarChart3,
       color: 'from-rose-500 to-orange-500',
     },
   ]
@@ -49,10 +49,10 @@ export function HowItWorks() {
         {/* 标题 */}
         <div className='mb-16 text-center'>
           <h2 className='mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 md:text-4xl'>
-            三步开始使用
+            简单三步，开始创作
           </h2>
           <p className='mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400'>
-            简单快速，5 分钟即可完成集成
+            充值即用，消费透明，随时掌控成本
           </p>
         </div>
 
