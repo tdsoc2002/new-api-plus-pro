@@ -55,14 +55,14 @@ export const EnterpriseSection = () => {
   ];
 
   return (
-    <div className='py-20 px-4' style={{ background: '#0f172a' }}>
+    <div className='py-20 px-4 bg-white dark:bg-slate-900'>
       <div className='max-w-7xl mx-auto'>
         {/* 标题 */}
         <div className='text-center mb-16'>
-          <h2 className='text-4xl md:text-5xl font-bold mb-4' style={{ color: '#ffffff' }}>
+          <h2 className='text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white'>
             {t('企业级管理能力')}
           </h2>
-          <p className='text-xl' style={{ color: '#9ca3af' }}>
+          <p className='text-xl text-gray-600 dark:text-gray-400'>
             {t('为 MCN 和影视公司量身打造的管理功能')}
           </p>
         </div>
@@ -72,14 +72,9 @@ export const EnterpriseSection = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className='p-8 rounded-3xl'
-              style={{
-                background: 'rgba(30, 41, 59, 0.5)',
-                border: '1px solid rgba(71, 85, 105, 0.3)',
-                backdropFilter: 'blur(10px)',
-              }}
+              className='p-8 rounded-3xl bg-gradient-to-br from-white to-gray-50 dark:from-slate-800 dark:to-slate-900 border border-gray-200 dark:border-slate-700'
             >
-              <h3 className='text-2xl font-bold mb-6' style={{ color: '#ffffff' }}>
+              <h3 className='text-2xl font-bold mb-6 text-gray-900 dark:text-white'>
                 {feature.title}
               </h3>
               <ul className='space-y-4'>
@@ -89,7 +84,7 @@ export const EnterpriseSection = () => {
                       size='large'
                       style={{ color: '#8b5cf6', flexShrink: 0, marginTop: 2 }}
                     />
-                    <span className='leading-relaxed' style={{ color: '#d1d5db' }}>{item}</span>
+                    <span className='leading-relaxed text-gray-600 dark:text-gray-300'>{item}</span>
                   </li>
                 ))}
               </ul>
@@ -99,14 +94,9 @@ export const EnterpriseSection = () => {
 
         {/* 数据可视化示例 */}
         <div
-          className='p-8 rounded-3xl'
-          style={{
-            background: 'rgba(30, 41, 59, 0.5)',
-            border: '1px solid rgba(71, 85, 105, 0.3)',
-            backdropFilter: 'blur(10px)',
-          }}
+          className='p-8 rounded-3xl bg-gradient-to-br from-white to-gray-50 dark:from-slate-800 dark:to-slate-900 border border-gray-200 dark:border-slate-700'
         >
-          <h3 className='text-2xl font-bold mb-8 text-center' style={{ color: '#ffffff' }}>
+          <h3 className='text-2xl font-bold mb-8 text-center text-gray-900 dark:text-white'>
             {t('实时数据监控')}
           </h3>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-6'>
@@ -118,14 +108,10 @@ export const EnterpriseSection = () => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className='p-6 rounded-2xl text-center'
-                style={{
-                  background: 'rgba(139, 92, 246, 0.05)',
-                  border: '1px solid rgba(139, 92, 246, 0.1)',
-                }}
+                className='p-6 rounded-2xl text-center bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700'
               >
-                <div className='text-sm mb-2' style={{ color: '#9ca3af' }}>{stat.label}</div>
-                <div className='text-3xl font-bold mb-2' style={{ color: '#ffffff' }}>
+                <div className='text-sm mb-2 text-gray-600 dark:text-gray-400'>{stat.label}</div>
+                <div className='text-3xl font-bold mb-2 text-gray-900 dark:text-white'>
                   {stat.value}
                 </div>
                 <div

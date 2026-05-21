@@ -81,14 +81,14 @@ export const FeaturesSection = () => {
   ];
 
   return (
-    <div className='py-20 px-4' style={{ background: '#0f172a' }}>
+    <div className='py-20 px-4 bg-white dark:bg-slate-900'>
       <div className='max-w-7xl mx-auto'>
         {/* 标题 */}
         <div className='text-center mb-16'>
-          <h2 className='text-4xl md:text-5xl font-bold mb-4' style={{ color: '#ffffff' }}>
+          <h2 className='text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white'>
             {t('强大的创作能力')}
           </h2>
-          <p className='text-xl' style={{ color: '#9ca3af' }}>
+          <p className='text-xl text-gray-600 dark:text-gray-400'>
             {t('一个平台，满足影视创作全流程需求')}
           </p>
         </div>
@@ -102,15 +102,8 @@ export const FeaturesSection = () => {
             return (
               <div
                 key={index}
-                className='group relative p-8 rounded-3xl transition-all duration-500 cursor-pointer'
+                className='group relative p-8 rounded-3xl transition-all duration-500 cursor-pointer bg-gradient-to-br from-white to-gray-50 dark:from-slate-800 dark:to-slate-900 border border-gray-200 dark:border-slate-700 hover:border-purple-300 dark:hover:border-purple-500 hover:shadow-xl hover:shadow-purple-500/10'
                 style={{
-                  background: isHovered
-                    ? 'rgba(139, 92, 246, 0.1)'
-                    : 'rgba(30, 41, 59, 0.5)',
-                  border: isHovered
-                    ? '1px solid rgba(139, 92, 246, 0.3)'
-                    : '1px solid rgba(71, 85, 105, 0.3)',
-                  backdropFilter: 'blur(10px)',
                   transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
                 }}
                 onMouseEnter={() => setHoveredIndex(index)}
@@ -144,13 +137,13 @@ export const FeaturesSection = () => {
                   </div>
 
                   {/* 标题 */}
-                  <h3 className='text-2xl font-bold mb-2' style={{ color: '#ffffff' }}>
+                  <h3 className='text-2xl font-bold mb-2 text-gray-900 dark:text-white'>
                     {feature.title}
                   </h3>
-                  <p className='text-sm mb-4 font-medium' style={{ color: '#a78bfa' }}>
+                  <p className='text-sm mb-4 font-medium text-purple-600 dark:text-purple-400'>
                     {feature.subtitle}
                   </p>
-                  <p className='mb-6 leading-relaxed' style={{ color: '#9ca3af' }}>
+                  <p className='mb-6 leading-relaxed text-gray-600 dark:text-gray-300'>
                     {feature.description}
                   </p>
 
@@ -174,7 +167,7 @@ export const FeaturesSection = () => {
                         }}
                       >
                         <div className='w-1.5 h-1.5 rounded-full bg-purple-400 mt-2 flex-shrink-0' />
-                        <span className='text-sm' style={{ color: '#d1d5db' }}>{detail}</span>
+                        <span className='text-sm text-gray-600 dark:text-gray-300'>{detail}</span>
                       </div>
                     ))}
                   </div>

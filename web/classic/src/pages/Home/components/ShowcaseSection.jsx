@@ -89,14 +89,14 @@ export const ShowcaseSection = () => {
       : showcaseItems.filter((item) => item.type === activeFilter);
 
   return (
-    <div className='py-20 px-4' style={{ background: '#1e293b' }}>
+    <div className='py-20 px-4 bg-gray-50 dark:bg-slate-800'>
       <div className='max-w-7xl mx-auto'>
         {/* 标题 */}
         <div className='text-center mb-12'>
-          <h2 className='text-4xl md:text-5xl font-bold mb-4' style={{ color: '#ffffff' }}>
+          <h2 className='text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white'>
             {t('创作者作品展示')}
           </h2>
-          <p className='text-xl mb-8' style={{ color: '#9ca3af' }}>
+          <p className='text-xl mb-8 text-gray-600 dark:text-gray-400'>
             {t('看看其他创作者用 AI 做出了什么')}
           </p>
 
@@ -111,12 +111,12 @@ export const ShowcaseSection = () => {
                   background:
                     activeFilter === filter.key
                       ? 'linear-gradient(135deg, #8b5cf6, #ec4899)'
-                      : 'rgba(71, 85, 105, 0.3)',
+                      : 'rgba(229, 231, 235, 0.8)',
                   border:
                     activeFilter === filter.key
                       ? '1px solid rgba(139, 92, 246, 0.5)'
-                      : '1px solid rgba(71, 85, 105, 0.3)',
-                  color: activeFilter === filter.key ? '#fff' : '#94a3b8',
+                      : '1px solid rgba(209, 213, 219, 0.5)',
+                  color: activeFilter === filter.key ? '#fff' : '#4b5563',
                   padding: '8px 20px',
                   borderRadius: '20px',
                 }}
@@ -167,10 +167,10 @@ export const ShowcaseSection = () => {
 
               {/* 信息区 */}
               <div className='p-6'>
-                <h3 className='text-lg font-semibold mb-2 line-clamp-1' style={{ color: '#ffffff' }}>
+                <h3 className='text-lg font-semibold mb-2 line-clamp-1 text-gray-900 dark:text-white'>
                   {item.title}
                 </h3>
-                <p className='text-sm mb-3' style={{ color: '#9ca3af' }}>{item.creator}</p>
+                <p className='text-sm mb-3 text-gray-600 dark:text-gray-400'>{item.creator}</p>
                 <div className='flex flex-wrap gap-2'>
                   {item.tags.map((tag, i) => (
                     <Tag

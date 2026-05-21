@@ -103,7 +103,7 @@ const Home = () => {
         isMobile={isMobile}
       />
       {homePageContentLoaded && homePageContent === '' ? (
-        <div style={{ background: '#0f172a' }}>
+        <>
           {/* 新的炫酷落地页 */}
           <HeroSection
             serverAddress={serverAddress}
@@ -113,7 +113,7 @@ const Home = () => {
           <FeaturesSection />
           <ShowcaseSection />
           <EnterpriseSection />
-        </div>
+        </>
       ) : (
         <div className='overflow-x-hidden w-full'>
           {homePageContent.startsWith('https://') ? (

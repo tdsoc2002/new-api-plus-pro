@@ -27,18 +27,18 @@ export const HeroSection = ({ serverAddress, isMobile, docsLink }) => {
   const { t } = useTranslation();
 
   return (
-    <div className='relative min-h-screen flex items-center justify-center overflow-hidden' style={{ background: 'linear-gradient(135deg, #111827 0%, #1e1b4b 100%)' }}>
+    <div className='relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50 dark:from-gray-900 dark:via-slate-900 dark:to-slate-800'>
       {/* 纯 CSS 渐变光效 - 性能优化 */}
       <div className='absolute inset-0 z-0'>
         <div
-          className='absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-20'
+          className='absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-30 dark:opacity-20'
           style={{
             background: 'radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%)',
             animation: 'pulse 4s ease-in-out infinite'
           }}
         />
         <div
-          className='absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl opacity-20'
+          className='absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl opacity-30 dark:opacity-20'
           style={{
             background: 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%)',
             animation: 'pulse 4s ease-in-out infinite 2s'
@@ -49,41 +49,55 @@ export const HeroSection = ({ serverAddress, isMobile, docsLink }) => {
       {/* 内容区 */}
       <div className='relative z-10 max-w-6xl mx-auto px-4 py-20 text-center'>
         {/* 标签 */}
-        <div className='inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-purple-500/10 border border-purple-500/20 backdrop-blur-sm'>
+        <div className='inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-purple-100 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/20 backdrop-blur-sm'>
           <span className='w-2 h-2 bg-purple-500 rounded-full animate-pulse' />
-          <span className='text-sm text-purple-300 font-medium'>
+          <span className='text-sm text-purple-700 dark:text-purple-300 font-medium'>
             {t('为 MCN 和影视公司打造')}
           </span>
         </div>
 
         {/* 主标题 */}
-        <h1 className='text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight' style={{ color: '#ffffff' }}>
+        <h1 className='text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight'>
+          <span style={{
+            background: 'linear-gradient(135deg, #1f2937 0%, #6b21a8 50%, #1e40af 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }} className='dark:hidden'>
+            {t('AI 创作工作室')}
+          </span>
           <span style={{
             background: 'linear-gradient(135deg, #ffffff 0%, #e9d5ff 50%, #fce7f3 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-            filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))'
-          }}>
+          }} className='hidden dark:inline'>
             {t('AI 创作工作室')}
           </span>
           <br />
+          <span style={{
+            background: 'linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #3b82f6 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }} className='dark:hidden'>
+            {t('为影视而生')}
+          </span>
           <span style={{
             background: 'linear-gradient(135deg, #c084fc 0%, #f472b6 50%, #93c5fd 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-            filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))'
-          }}>
+          }} className='hidden dark:inline'>
             {t('为影视而生')}
           </span>
         </h1>
 
         {/* 副标题 */}
-        <p className='text-xl md:text-2xl mb-12 max-w-3xl mx-auto leading-relaxed font-medium' style={{ color: '#f3f4f6' }}>
+        <p className='text-xl md:text-2xl mb-12 max-w-3xl mx-auto leading-relaxed font-medium text-gray-700 dark:text-gray-100'>
           {t('视频生成 · 图片创作 · 画布协作')}
           <br />
-          <span style={{ color: '#e9d5ff' }}>{t('一站式 AI 创作平台，让创意无限延伸')}</span>
+          <span className='text-purple-600 dark:text-purple-300'>{t('一站式 AI 创作平台，让创意无限延伸')}</span>
         </p>
 
         {/* CTA 按钮 */}
@@ -130,16 +144,12 @@ export const HeroSection = ({ serverAddress, isMobile, docsLink }) => {
           ].map((stat, index) => (
             <div
               key={index}
-              className='p-6 rounded-2xl backdrop-blur-sm'
-              style={{
-                background: 'rgba(139, 92, 246, 0.15)',
-                border: '1px solid rgba(139, 92, 246, 0.3)',
-              }}
+              className='p-6 rounded-2xl backdrop-blur-sm bg-white/80 dark:bg-purple-500/15 border border-purple-200 dark:border-purple-500/30'
             >
-              <div className='text-3xl md:text-4xl font-bold mb-2' style={{ color: '#ffffff' }}>
+              <div className='text-3xl md:text-4xl font-bold mb-2 text-gray-900 dark:text-white'>
                 {stat.value}
               </div>
-              <div className='text-sm font-medium' style={{ color: '#e5e7eb' }}>{stat.label}</div>
+              <div className='text-sm font-medium text-gray-600 dark:text-gray-200'>{stat.label}</div>
             </div>
           ))}
         </div>
