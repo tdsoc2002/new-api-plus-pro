@@ -3,6 +3,7 @@ package controller
 import (
 	"crypto/sha256"
 	"encoding/base64"
+	"errors"
 	"net/http"
 	"strconv"
 	"strings"
