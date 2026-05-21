@@ -1,0 +1,72 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆角矩形 -->
+  <rect width="60" height="60" rx="12" fill="url(#gradient-bg)"/>
+
+  <!-- 主图标：抽象的 API 连接节点 -->
+  <g transform="translate(15, 15)">
+    <!-- 中心节点 -->
+    <circle cx="15" cy="15" r="6" fill="url(#gradient-center)"/>
+
+    <!-- 左侧节点 -->
+    <circle cx="0" cy="15" r="4" fill="url(#gradient-left)"/>
+    <line x1="4" y1="15" x2="9" y2="15" stroke="url(#gradient-line)" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- 右侧节点 -->
+    <circle cx="30" cy="15" r="4" fill="url(#gradient-right)"/>
+    <line x1="21" y1="15" x2="26" y2="15" stroke="url(#gradient-line)" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- 上方节点 -->
+    <circle cx="15" cy="0" r="4" fill="url(#gradient-top)"/>
+    <line x1="15" y1="4" x2="15" y2="9" stroke="url(#gradient-line)" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- 下方节点 -->
+    <circle cx="15" cy="30" r="4" fill="url(#gradient-bottom)"/>
+    <line x1="15" y1="21" x2="15" y2="26" stroke="url(#gradient-line)" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- 渐变定义 -->
+  <defs>
+    <!-- 背景渐变 -->
+    <linearGradient id="gradient-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 中心节点渐变 -->
+    <radialGradient id="gradient-center">
+      <stop offset="0%" style="stop-color:#ffd89b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#19547b;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- 左侧节点渐变 -->
+    <linearGradient id="gradient-left">
+      <stop offset="0%" style="stop-color:#a8edea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fed6e3;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 右侧节点渐变 -->
+    <linearGradient id="gradient-right">
+      <stop offset="0%" style="stop-color:#ffecd2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fcb69f;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 上方节点渐变 -->
+    <linearGradient id="gradient-top">
+      <stop offset="0%" style="stop-color:#a1c4fd;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c2e9fb;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 下方节点渐变 -->
+    <linearGradient id="gradient-bottom">
+      <stop offset="0%" style="stop-color:#fbc2eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a6c1ee;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 连接线渐变 -->
+    <linearGradient id="gradient-line">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.4" />
+    </linearGradient>
+  </defs>
+</svg>
