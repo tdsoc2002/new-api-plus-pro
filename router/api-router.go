@@ -199,6 +199,44 @@ func SetApiRouter(router *gin.Engine) {
 			customOAuthRoute.PUT("/:id", controller.UpdateCustomOAuthProvider)
 			customOAuthRoute.DELETE("/:id", controller.DeleteCustomOAuthProvider)
 		}
+
+		// OAuth Provider routes
+		oauth2Route := apiRouter.Group("/oauth2")
+		{
+			// Authorization flow (requires user login)
+			oauth2Route.GET("/authorize", middleware.UserAuth(), controller.OAuthAuthorize)
+			oauth2Route.POST("/authorize", middleware.UserAuth(), controller.OAuthAuthorizePost)
+
+			// Token exchange (public, uses client_secret for authentication)
+			oauth2Route.POST("/token", controller.OAuthToken)
+
+			// User info (requires OAuth access token)
+			oauth2Route.GET("/userinfo", middleware.OAuthTokenAuth(), controller.OAuthUserInfo)
+
+			// Token revocation
+			oauth2Route.POST("/revoke", controller.OAuthRevoke)
+		}
+
+		// OAuth client management (admin only)
+		oauthClientRoute := apiRouter.Group("/oauth-clients")
+		oauthClientRoute.Use(middleware.AdminAuth())
+		{
+			oauthClientRoute.GET("/", controller.GetOAuthClients)
+			oauthClientRoute.GET("/:id", controller.GetOAuthClient)
+			oauthClientRoute.POST("/", controller.CreateOAuthClient)
+			oauthClientRoute.PUT("/:id", controller.UpdateOAuthClient)
+			oauthClientRoute.DELETE("/:id", controller.DeleteOAuthClient)
+			oauthClientRoute.POST("/:id/regenerate-secret", controller.RegenerateClientSecret)
+		}
+
+		// User OAuth authorization management
+		userOAuthRoute := apiRouter.Group("/user/oauth-authorizations")
+		userOAuthRoute.Use(middleware.UserAuth())
+		{
+			userOAuthRoute.GET("/", controller.GetUserAuthorizations)
+			userOAuthRoute.DELETE("/:client_id", controller.RevokeUserAuthorization)
+		}
+
 		performanceRoute := apiRouter.Group("/performance")
 		performanceRoute.Use(middleware.RootAuth())
 		{
