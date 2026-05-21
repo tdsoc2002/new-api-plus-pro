@@ -150,20 +150,20 @@ export const HeroSection = ({ serverAddress, isMobile, docsLink }) => {
 
         {/* 主标题 */}
         <h1 className='text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight'>
-          <span className='bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent'>
+          <span className='bg-gradient-to-r from-white via-purple-100 to-pink-100 bg-clip-text text-transparent drop-shadow-lg'>
             {t('AI 创作工作室')}
           </span>
           <br />
-          <span className='bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent'>
+          <span className='bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 bg-clip-text text-transparent drop-shadow-lg'>
             {t('为影视而生')}
           </span>
         </h1>
 
         {/* 副标题 */}
-        <p className='text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
+        <p className='text-xl md:text-2xl text-gray-100 mb-12 max-w-3xl mx-auto leading-relaxed font-medium'>
           {t('视频生成 · 图片创作 · 画布协作')}
           <br />
-          <span className='text-purple-300'>{t('一站式 AI 创作平台，让创意无限延伸')}</span>
+          <span className='text-purple-200'>{t('一站式 AI 创作平台，让创意无限延伸')}</span>
         </p>
 
         {/* CTA 按钮 */}
@@ -212,14 +212,14 @@ export const HeroSection = ({ serverAddress, isMobile, docsLink }) => {
               key={index}
               className='p-6 rounded-2xl backdrop-blur-sm'
               style={{
-                background: 'rgba(139, 92, 246, 0.05)',
-                border: '1px solid rgba(139, 92, 246, 0.1)',
+                background: 'rgba(139, 92, 246, 0.15)',
+                border: '1px solid rgba(139, 92, 246, 0.3)',
               }}
             >
-              <div className='text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2'>
+              <div className='text-3xl md:text-4xl font-bold text-white mb-2'>
                 {stat.value}
               </div>
-              <div className='text-sm text-gray-400'>{stat.label}</div>
+              <div className='text-sm text-gray-200 font-medium'>{stat.label}</div>
             </div>
           ))}
         </div>
