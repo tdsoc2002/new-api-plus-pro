@@ -871,7 +871,7 @@ func validateScopes(requestedScopes string) (string, error) {
 	}
 
 	if len(validatedScopes) == 0 {
-		return "", common.StringErrorWrapper("no valid scopes provided")
+		return "", errors.New("no valid scopes provided")
 	}
 
 	return strings.Join(validatedScopes, " "), nil
