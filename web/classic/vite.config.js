@@ -70,6 +70,7 @@ export default defineConfig({
         manualChunks: {
           'react-core': ['react', 'react-dom', 'react-router-dom'],
           'semi-ui': ['@douyinfe/semi-icons', '@douyinfe/semi-ui'],
+          'lobehub-icons': ['@lobehub/icons'],
           tools: ['axios', 'history', 'marked'],
           'react-components': [
             'react-dropzone',
@@ -83,9 +84,22 @@ export default defineConfig({
             'react-i18next',
             'i18next-browser-languagedetector',
           ],
+          charts: ['@visactor/react-vchart', '@visactor/vchart'],
         },
       },
     },
+    // 性能优化
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    // 代码分割阈值
+    chunkSizeWarningLimit: 1000,
+    // 启用 CSS 代码分割
+    cssCodeSplit: true,
   },
   server: {
     host: '0.0.0.0',

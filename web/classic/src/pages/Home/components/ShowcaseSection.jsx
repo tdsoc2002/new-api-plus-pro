@@ -25,13 +25,13 @@ export const ShowcaseSection = () => {
   const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState('all');
 
-  // 示例作品数据（实际应该从 API 获取）
+  // 示例作品数据（使用占位符，避免外链加载慢）
   const showcaseItems = [
     {
       id: 1,
       type: 'video',
       title: t('科幻短片 - 未来城市'),
-      thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop',
+      thumbnail: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect fill="%231e293b" width="800" height="600"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="%238b5cf6"%3E%E8%A7%86%E9%A2%91%E7%A4%BA%E4%BE%8B%3C/text%3E%3C/svg%3E',
       tags: [t('视频'), 'Runway', t('科幻')],
       creator: 'MCN Studio A',
     },
@@ -39,7 +39,7 @@ export const ShowcaseSection = () => {
       id: 2,
       type: 'image',
       title: t('商业海报 - 产品发布'),
-      thumbnail: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop',
+      thumbnail: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect fill="%231e293b" width="800" height="600"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="%23ec4899"%3E%E5%9B%BE%E7%89%87%E7%A4%BA%E4%BE%8B%3C/text%3E%3C/svg%3E',
       tags: [t('图片'), 'Midjourney', t('商业')],
       creator: t('影视公司 B'),
     },
@@ -47,7 +47,7 @@ export const ShowcaseSection = () => {
       id: 3,
       type: 'video',
       title: t('广告片 - 汽车宣传'),
-      thumbnail: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=600&fit=crop',
+      thumbnail: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect fill="%231e293b" width="800" height="600"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="%238b5cf6"%3E%E8%A7%86%E9%A2%91%E7%A4%BA%E4%BE%8B%3C/text%3E%3C/svg%3E',
       tags: [t('视频'), 'Pika', t('广告')],
       creator: 'Creative Team C',
     },
@@ -55,7 +55,7 @@ export const ShowcaseSection = () => {
       id: 4,
       type: 'image',
       title: t('概念设计 - 角色原画'),
-      thumbnail: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=800&h=600&fit=crop',
+      thumbnail: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect fill="%231e293b" width="800" height="600"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="%23ec4899"%3E%E5%9B%BE%E7%89%87%E7%A4%BA%E4%BE%8B%3C/text%3E%3C/svg%3E',
       tags: [t('图片'), 'DALL-E', t('概念设计')],
       creator: t('游戏工作室 D'),
     },
@@ -63,7 +63,7 @@ export const ShowcaseSection = () => {
       id: 5,
       type: 'video',
       title: t('纪录片 - 自然风光'),
-      thumbnail: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop',
+      thumbnail: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect fill="%231e293b" width="800" height="600"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="%238b5cf6"%3E%E8%A7%86%E9%A2%91%E7%A4%BA%E4%BE%8B%3C/text%3E%3C/svg%3E',
       tags: [t('视频'), 'Sora', t('纪录片')],
       creator: t('纪录片团队 E'),
     },
@@ -71,7 +71,7 @@ export const ShowcaseSection = () => {
       id: 6,
       type: 'image',
       title: t('时尚摄影 - 杂志封面'),
-      thumbnail: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&h=600&fit=crop',
+      thumbnail: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect fill="%231e293b" width="800" height="600"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="%23ec4899"%3E%E5%9B%BE%E7%89%87%E7%A4%BA%E4%BE%8B%3C/text%3E%3C/svg%3E',
       tags: [t('图片'), 'Stable Diffusion', t('时尚')],
       creator: t('时尚杂志 F'),
     },
@@ -148,6 +148,7 @@ export const ShowcaseSection = () => {
                 <img
                   src={item.thumbnail}
                   alt={item.title}
+                  loading='lazy'
                   className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-110'
                 />
                 {/* 视频标识 */}

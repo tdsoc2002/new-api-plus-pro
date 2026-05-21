@@ -17,7 +17,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Button } from '@douyinfe/semi-ui';
 import { IconPlay, IconFile } from '@douyinfe/semi-icons';
 import { Link } from 'react-router-dom';
@@ -25,117 +25,25 @@ import { useTranslation } from 'react-i18next';
 
 export const HeroSection = ({ serverAddress, isMobile, docsLink }) => {
   const { t } = useTranslation();
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // 粒子系统
-    const particles = [];
-    const particleCount = 100;
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 2 + 1;
-        this.opacity = Math.random() * 0.5 + 0.2;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
-        ctx.fill();
-      }
-    }
-
-    // 初始化粒子
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
-
-    // 动画循环
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // 绘制渐变背景
-      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, 'rgba(17, 24, 39, 1)');
-      gradient.addColorStop(1, 'rgba(30, 27, 75, 1)');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // 更新和绘制粒子
-      particles.forEach((particle) => {
-        particle.update();
-        particle.draw();
-      });
-
-      // 连接粒子
-      particles.forEach((p1, i) => {
-        particles.slice(i + 1).forEach((p2) => {
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 100) {
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(139, 92, 246, ${0.1 * (1 - distance / 100)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        });
-      });
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
-
-    // 响应窗口大小变化
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   return (
-    <div className='relative min-h-screen flex items-center justify-center overflow-hidden'>
-      {/* 3D 动态背景 */}
-      <canvas
-        ref={canvasRef}
-        className='absolute inset-0 z-0'
-        style={{ background: 'linear-gradient(135deg, #111827 0%, #1e1b4b 100%)' }}
-      />
-
-      {/* 渐变光效 */}
+    <div className='relative min-h-screen flex items-center justify-center overflow-hidden' style={{ background: 'linear-gradient(135deg, #111827 0%, #1e1b4b 100%)' }}>
+      {/* 纯 CSS 渐变光效 - 性能优化 */}
       <div className='absolute inset-0 z-0'>
-        <div className='absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse' />
-        <div className='absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse' style={{ animationDelay: '1s' }} />
+        <div
+          className='absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-20'
+          style={{
+            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%)',
+            animation: 'pulse 4s ease-in-out infinite'
+          }}
+        />
+        <div
+          className='absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl opacity-20'
+          style={{
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%)',
+            animation: 'pulse 4s ease-in-out infinite 2s'
+          }}
+        />
       </div>
 
       {/* 内容区 */}
