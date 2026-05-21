@@ -37,6 +37,8 @@ const routerMap = {
   redemption: '/console/redemption',
   topup: '/console/topup',
   user: '/console/user',
+  'oauth-clients': '/console/oauth-clients',
+  'oauth-authorizations': '/console/oauth-authorizations',
   subscription: '/console/subscription',
   log: '/console/log',
   midjourney: '/console/midjourney',
@@ -134,6 +136,11 @@ const SiderBar = ({ onNavigate = () => {} }) => {
         itemKey: 'personal',
         to: '/personal',
       },
+      {
+        text: t('授权管理'),
+        itemKey: 'oauth-authorizations',
+        to: '/console/oauth-authorizations',
+      },
     ];
 
     // 根据配置过滤项目
@@ -181,6 +188,12 @@ const SiderBar = ({ onNavigate = () => {} }) => {
         text: t('用户管理'),
         itemKey: 'user',
         to: '/user',
+        className: isAdmin() ? '' : 'tableHiddle',
+      },
+      {
+        text: t('OAuth 客户端'),
+        itemKey: 'oauth-clients',
+        to: '/console/oauth-clients',
         className: isAdmin() ? '' : 'tableHiddle',
       },
       {

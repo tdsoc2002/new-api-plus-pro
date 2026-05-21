@@ -3824,6 +3824,21 @@
     "并确认自行承担部署": "confirm that I bear legal responsibility arising from deployment",
     "运营和收费行为产生的法律责任": "operation and charging behavior",
     "，": ", ",
-    "、": ", "
+    "、": ", ",
+    "授权管理": "Authorization Management",
+    "管理您授权给第三方应用的访问权限。您可以随时撤销授权。": "Manage access permissions granted to third-party applications. You can revoke authorization at any time.",
+    "搜索应用名称": "Search application name",
+    "暂无授权应用": "No authorized applications",
+    "应用名称": "Application Name",
+    "授权范围": "Scopes",
+    "授权时间": "Authorized At",
+    "最后使用时间": "Last Used At",
+    "撤销授权": "Revoke Authorization",
+    "确定撤销授权？": "Confirm revoke authorization?",
+    "撤销后，该应用将无法访问您的账户信息": "After revocation, this application will no longer be able to access your account information",
+    "撤销授权成功": "Authorization revoked successfully",
+    "撤销授权失败": "Failed to revoke authorization",
+    "加载授权列表失败": "Failed to load authorization list",
+    "无权限": "No permissions"
   }
 }

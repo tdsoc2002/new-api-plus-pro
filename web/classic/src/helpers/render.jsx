@@ -80,6 +80,8 @@ import {
   Package,
   Server,
   CalendarClock,
+  ShieldCheck,
+  ShieldAlert,
 } from 'lucide-react';
 import {
   SiAtlassian,
@@ -150,6 +152,10 @@ export function getLucideIcon(key, selected = false) {
       return <Server {...commonProps} color={iconColor} />;
     case 'subscription':
       return <CalendarClock {...commonProps} color={iconColor} />;
+    case 'oauth-clients':
+      return <ShieldCheck {...commonProps} color={iconColor} />;
+    case 'oauth-authorizations':
+      return <ShieldAlert {...commonProps} color={iconColor} />;
     case 'setting':
       return <Settings {...commonProps} color={iconColor} />;
     default:
