@@ -1,4 +1,4 @@
-import { api } from '@/lib/request'
+import { api } from '@/lib/api'
 import type { UserAuthorization } from './types'
 
 export async function getUserAuthorizations(): Promise<UserAuthorization[]> {

@@ -1,4 +1,4 @@
-import { SectionPageLayout } from '@/components/layout/section-page-layout'
+import { SectionPageLayout } from '@/components/layout/components/section-page-layout'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { OAuthClientsProvider, useOAuthClients } from './components/oauth-clients-provider'
