@@ -85,12 +85,10 @@ export const FeaturesSection = () => {
       <div className='max-w-7xl mx-auto'>
         {/* 标题 */}
         <div className='text-center mb-16'>
-          <h2 className='text-4xl md:text-5xl font-bold mb-4'>
-            <span className='bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent'>
-              {t('强大的创作能力')}
-            </span>
+          <h2 className='text-4xl md:text-5xl font-bold mb-4' style={{ color: '#ffffff' }}>
+            {t('强大的创作能力')}
           </h2>
-          <p className='text-xl text-gray-400'>
+          <p className='text-xl' style={{ color: '#9ca3af' }}>
             {t('一个平台，满足影视创作全流程需求')}
           </p>
         </div>
@@ -146,13 +144,13 @@ export const FeaturesSection = () => {
                   </div>
 
                   {/* 标题 */}
-                  <h3 className='text-2xl font-bold mb-2 text-white'>
+                  <h3 className='text-2xl font-bold mb-2' style={{ color: '#ffffff' }}>
                     {feature.title}
                   </h3>
-                  <p className='text-sm text-purple-400 mb-4 font-medium'>
+                  <p className='text-sm mb-4 font-medium' style={{ color: '#a78bfa' }}>
                     {feature.subtitle}
                   </p>
-                  <p className='text-gray-400 mb-6 leading-relaxed'>
+                  <p className='mb-6 leading-relaxed' style={{ color: '#9ca3af' }}>
                     {feature.description}
                   </p>
 
@@ -176,7 +174,7 @@ export const FeaturesSection = () => {
                         }}
                       >
                         <div className='w-1.5 h-1.5 rounded-full bg-purple-400 mt-2 flex-shrink-0' />
-                        <span className='text-sm text-gray-300'>{detail}</span>
+                        <span className='text-sm' style={{ color: '#d1d5db' }}>{detail}</span>
                       </div>
                     ))}
                   </div>

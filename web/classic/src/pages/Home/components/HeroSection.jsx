@@ -57,21 +57,33 @@ export const HeroSection = ({ serverAddress, isMobile, docsLink }) => {
         </div>
 
         {/* 主标题 */}
-        <h1 className='text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight'>
-          <span className='bg-gradient-to-r from-white via-purple-100 to-pink-100 bg-clip-text text-transparent drop-shadow-lg'>
+        <h1 className='text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight' style={{ color: '#ffffff' }}>
+          <span style={{
+            background: 'linear-gradient(135deg, #ffffff 0%, #e9d5ff 50%, #fce7f3 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))'
+          }}>
             {t('AI 创作工作室')}
           </span>
           <br />
-          <span className='bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 bg-clip-text text-transparent drop-shadow-lg'>
+          <span style={{
+            background: 'linear-gradient(135deg, #c084fc 0%, #f472b6 50%, #93c5fd 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))'
+          }}>
             {t('为影视而生')}
           </span>
         </h1>
 
         {/* 副标题 */}
-        <p className='text-xl md:text-2xl text-gray-100 mb-12 max-w-3xl mx-auto leading-relaxed font-medium'>
+        <p className='text-xl md:text-2xl mb-12 max-w-3xl mx-auto leading-relaxed font-medium' style={{ color: '#f3f4f6' }}>
           {t('视频生成 · 图片创作 · 画布协作')}
           <br />
-          <span className='text-purple-200'>{t('一站式 AI 创作平台，让创意无限延伸')}</span>
+          <span style={{ color: '#e9d5ff' }}>{t('一站式 AI 创作平台，让创意无限延伸')}</span>
         </p>
 
         {/* CTA 按钮 */}
@@ -124,10 +136,10 @@ export const HeroSection = ({ serverAddress, isMobile, docsLink }) => {
                 border: '1px solid rgba(139, 92, 246, 0.3)',
               }}
             >
-              <div className='text-3xl md:text-4xl font-bold text-white mb-2'>
+              <div className='text-3xl md:text-4xl font-bold mb-2' style={{ color: '#ffffff' }}>
                 {stat.value}
               </div>
-              <div className='text-sm text-gray-200 font-medium'>{stat.label}</div>
+              <div className='text-sm font-medium' style={{ color: '#e5e7eb' }}>{stat.label}</div>
             </div>
           ))}
         </div>

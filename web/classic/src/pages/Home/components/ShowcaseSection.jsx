@@ -93,12 +93,10 @@ export const ShowcaseSection = () => {
       <div className='max-w-7xl mx-auto'>
         {/* 标题 */}
         <div className='text-center mb-12'>
-          <h2 className='text-4xl md:text-5xl font-bold mb-4'>
-            <span className='bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent'>
-              {t('创作者作品展示')}
-            </span>
+          <h2 className='text-4xl md:text-5xl font-bold mb-4' style={{ color: '#ffffff' }}>
+            {t('创作者作品展示')}
           </h2>
-          <p className='text-xl text-gray-400 mb-8'>
+          <p className='text-xl mb-8' style={{ color: '#9ca3af' }}>
             {t('看看其他创作者用 AI 做出了什么')}
           </p>
 
@@ -169,10 +167,10 @@ export const ShowcaseSection = () => {
 
               {/* 信息区 */}
               <div className='p-6'>
-                <h3 className='text-lg font-semibold text-white mb-2 line-clamp-1'>
+                <h3 className='text-lg font-semibold mb-2 line-clamp-1' style={{ color: '#ffffff' }}>
                   {item.title}
                 </h3>
-                <p className='text-sm text-gray-400 mb-3'>{item.creator}</p>
+                <p className='text-sm mb-3' style={{ color: '#9ca3af' }}>{item.creator}</p>
                 <div className='flex flex-wrap gap-2'>
                   {item.tags.map((tag, i) => (
                     <Tag

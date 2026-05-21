@@ -59,12 +59,10 @@ export const EnterpriseSection = () => {
       <div className='max-w-7xl mx-auto'>
         {/* 标题 */}
         <div className='text-center mb-16'>
-          <h2 className='text-4xl md:text-5xl font-bold mb-4'>
-            <span className='bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent'>
-              {t('企业级管理能力')}
-            </span>
+          <h2 className='text-4xl md:text-5xl font-bold mb-4' style={{ color: '#ffffff' }}>
+            {t('企业级管理能力')}
           </h2>
-          <p className='text-xl text-gray-400'>
+          <p className='text-xl' style={{ color: '#9ca3af' }}>
             {t('为 MCN 和影视公司量身打造的管理功能')}
           </p>
         </div>
@@ -81,7 +79,7 @@ export const EnterpriseSection = () => {
                 backdropFilter: 'blur(10px)',
               }}
             >
-              <h3 className='text-2xl font-bold text-white mb-6'>
+              <h3 className='text-2xl font-bold mb-6' style={{ color: '#ffffff' }}>
                 {feature.title}
               </h3>
               <ul className='space-y-4'>
@@ -91,7 +89,7 @@ export const EnterpriseSection = () => {
                       size='large'
                       style={{ color: '#8b5cf6', flexShrink: 0, marginTop: 2 }}
                     />
-                    <span className='text-gray-300 leading-relaxed'>{item}</span>
+                    <span className='leading-relaxed' style={{ color: '#d1d5db' }}>{item}</span>
                   </li>
                 ))}
               </ul>
@@ -108,7 +106,7 @@ export const EnterpriseSection = () => {
             backdropFilter: 'blur(10px)',
           }}
         >
-          <h3 className='text-2xl font-bold text-white mb-8 text-center'>
+          <h3 className='text-2xl font-bold mb-8 text-center' style={{ color: '#ffffff' }}>
             {t('实时数据监控')}
           </h3>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-6'>
@@ -126,8 +124,8 @@ export const EnterpriseSection = () => {
                   border: '1px solid rgba(139, 92, 246, 0.1)',
                 }}
               >
-                <div className='text-sm text-gray-400 mb-2'>{stat.label}</div>
-                <div className='text-3xl font-bold text-white mb-2'>
+                <div className='text-sm mb-2' style={{ color: '#9ca3af' }}>{stat.label}</div>
+                <div className='text-3xl font-bold mb-2' style={{ color: '#ffffff' }}>
                   {stat.value}
                 </div>
                 <div
