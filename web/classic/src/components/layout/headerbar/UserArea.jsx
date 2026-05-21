@@ -148,13 +148,13 @@ const UserArea = ({
       'flex items-center justify-center !py-[10px] !px-1.5';
 
     const loginButtonSpecificStyling =
-      '!bg-white dark:!bg-white hover:!bg-gray-50 dark:hover:!bg-gray-100 !border !border-blue-500 transition-colors';
+      '!bg-white dark:!bg-gray-800 hover:!bg-gray-50 dark:hover:!bg-gray-700 !border !border-blue-500 dark:!border-blue-400 transition-colors';
     let loginButtonClasses = `${commonSizingAndLayoutClass} ${loginButtonSpecificStyling}`;
 
     let registerButtonClasses = `${commonSizingAndLayoutClass}`;
 
     const loginButtonTextSpanClass =
-      '!text-xs !text-blue-600 dark:!text-blue-600 !p-1.5 !font-medium';
+      '!text-xs !text-blue-600 dark:!text-blue-400 !p-1.5 !font-medium';
     const registerButtonTextSpanClass = '!text-xs !text-white !p-1.5';
 
     if (showRegisterButton) {
