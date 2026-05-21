@@ -88,14 +88,8 @@ export default defineConfig({
         },
       },
     },
-    // 性能优化
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    // 性能优化 - 使用默认的 esbuild 压缩
+    minify: 'esbuild',
     // 代码分割阈值
     chunkSizeWarningLimit: 1000,
     // 启用 CSS 代码分割
