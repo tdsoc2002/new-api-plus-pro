@@ -34,6 +34,7 @@ import {
   ListTodo,
   Settings,
   Shield,
+  Images,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { WORKSPACE_IDS } from '@/components/layout/lib/workspace-registry'
@@ -86,6 +87,11 @@ export function useSidebarData(): SidebarData {
             title: t('API Keys'),
             url: '/keys',
             icon: Key,
+          },
+          {
+            title: t('Asset Library'),
+            url: '/assets',
+            icon: Images,
           },
           {
             title: t('Usage Logs'),

@@ -65,6 +65,21 @@ const defaultOperationsSettings: OperationsSettings = {
   'perf_metrics_setting.flush_interval': 5,
   'perf_metrics_setting.bucket_time': 'hour',
   'perf_metrics_setting.retention_days': 0,
+  'asset_storage_setting.enabled': false,
+  'asset_storage_setting.default_limit_bytes': 1073741824,
+  'asset_storage_setting.max_file_size_bytes': 104857600,
+  'asset_storage_setting.allowed_mime_types':
+    'image/jpeg,image/png,image/webp,video/mp4,video/quicktime',
+  'asset_storage_setting.tos_access_key': '',
+  'asset_storage_setting.tos_secret_key': '',
+  'asset_storage_setting.tos_security_token': '',
+  'asset_storage_setting.tos_endpoint': '',
+  'asset_storage_setting.tos_region': '',
+  'asset_storage_setting.tos_bucket': '',
+  'asset_storage_setting.tos_public_base_url': '',
+  'asset_storage_setting.tos_key_prefix': 'seedance-assets',
+  'asset_storage_setting.seedance_default_model': 'seedance-2',
+  'asset_storage_setting.seedance_default_group_name': 'Default Library',
 }
 
 export function OperationsSettings() {
@@ -95,6 +110,7 @@ export function OperationsSettings() {
     | 'worker'
     | 'logs'
     | 'performance'
+    | 'asset-storage'
     | 'update-checker'
   const sectionContent = getOperationsSectionContent(
     activeSection,

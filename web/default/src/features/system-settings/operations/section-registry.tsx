@@ -18,6 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 import { SystemBehaviorSection } from '../general/system-behavior-section'
 import { EmailSettingsSection } from '../integrations/email-settings-section'
+import { AssetStorageSettingsSection } from '../integrations/asset-storage-settings-section'
 import { MonitoringSettingsSection } from '../integrations/monitoring-settings-section'
 import { WorkerSettingsSection } from '../integrations/worker-settings-section'
 import { LogSettingsSection } from '../maintenance/log-settings-section'
@@ -94,6 +95,49 @@ const OPERATIONS_SECTIONS = [
           WorkerValidKey: settings.WorkerValidKey,
           WorkerAllowHttpImageRequestEnabled:
             settings.WorkerAllowHttpImageRequestEnabled,
+        }}
+      />
+    ),
+  },
+  {
+    id: 'asset-storage',
+    titleKey: 'Asset Storage',
+    descriptionKey: 'Configure TOS storage for user asset libraries',
+    build: (settings: OperationsSettings) => (
+      <AssetStorageSettingsSection
+        defaultValues={{
+          'asset_storage_setting.enabled':
+            settings['asset_storage_setting.enabled'] ?? false,
+          'asset_storage_setting.default_limit_bytes':
+            settings['asset_storage_setting.default_limit_bytes'] ?? 1073741824,
+          'asset_storage_setting.max_file_size_bytes':
+            settings['asset_storage_setting.max_file_size_bytes'] ?? 104857600,
+          'asset_storage_setting.allowed_mime_types':
+            settings['asset_storage_setting.allowed_mime_types'] ??
+            'image/jpeg,image/png,image/webp,video/mp4,video/quicktime',
+          'asset_storage_setting.tos_access_key':
+            settings['asset_storage_setting.tos_access_key'] ?? '',
+          'asset_storage_setting.tos_secret_key':
+            settings['asset_storage_setting.tos_secret_key'] ?? '',
+          'asset_storage_setting.tos_security_token':
+            settings['asset_storage_setting.tos_security_token'] ?? '',
+          'asset_storage_setting.tos_endpoint':
+            settings['asset_storage_setting.tos_endpoint'] ?? '',
+          'asset_storage_setting.tos_region':
+            settings['asset_storage_setting.tos_region'] ?? '',
+          'asset_storage_setting.tos_bucket':
+            settings['asset_storage_setting.tos_bucket'] ?? '',
+          'asset_storage_setting.tos_public_base_url':
+            settings['asset_storage_setting.tos_public_base_url'] ?? '',
+          'asset_storage_setting.tos_key_prefix':
+            settings['asset_storage_setting.tos_key_prefix'] ??
+            'seedance-assets',
+          'asset_storage_setting.seedance_default_model':
+            settings['asset_storage_setting.seedance_default_model'] ??
+            'seedance-2',
+          'asset_storage_setting.seedance_default_group_name':
+            settings['asset_storage_setting.seedance_default_group_name'] ??
+            'Default Library',
         }}
       />
     ),
