@@ -21,10 +21,14 @@ type PriceData struct {
 	AudioRatio           float64
 	AudioCompletionRatio float64
 	OtherRatios          map[string]float64
-	UsePrice             bool
-	Quota                int // 按次计费的最终额度（MJ / Task）
-	QuotaToPreConsume    int // 按量计费的预消耗额度
-	GroupRatioInfo       GroupRatioInfo
+	// MapModelPriceUSD 为「模型固定价格」表中的单价快照（复合视频计费前），供按秒/分辨率/音频规则叠加时使用。
+	MapModelPriceUSD float64
+	// VideoComposite 为 true 表示本次任务额度由视频复合定价公式算出，不再对 OtherRatios 做连乘。
+	VideoComposite    bool
+	UsePrice          bool
+	Quota             int // 按次计费的最终额度（MJ / Task）
+	QuotaToPreConsume int // 按量计费的预消耗额度
+	GroupRatioInfo    GroupRatioInfo
 }
 
 func (p *PriceData) AddOtherRatio(key string, ratio float64) {

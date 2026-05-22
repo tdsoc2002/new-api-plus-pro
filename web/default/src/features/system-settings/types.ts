@@ -156,6 +156,7 @@ export type ModelSettings = {
   'grok.violation_deduction_enabled': boolean
   'grok.violation_deduction_amount': number
   ModelPrice: string
+  VideoPricingRules: string
   ModelRatio: string
   CacheRatio: string
   CreateCacheRatio: string
@@ -199,6 +200,7 @@ export type BillingSettings = {
   DisplayInCurrencyEnabled: boolean
   DisplayTokenStatEnabled: boolean
   ModelPrice: string
+  VideoPricingRules: string
   ModelRatio: string
   CacheRatio: string
   CreateCacheRatio: string
@@ -310,6 +312,20 @@ export type OperationsSettings = {
   'perf_metrics_setting.flush_interval': number
   'perf_metrics_setting.bucket_time': 'hour' | 'minute' | '5min'
   'perf_metrics_setting.retention_days': number
+  'asset_storage_setting.enabled': boolean
+  'asset_storage_setting.default_limit_bytes': number
+  'asset_storage_setting.max_file_size_bytes': number
+  'asset_storage_setting.allowed_mime_types': string
+  'asset_storage_setting.tos_access_key': string
+  'asset_storage_setting.tos_secret_key': string
+  'asset_storage_setting.tos_security_token': string
+  'asset_storage_setting.tos_endpoint': string
+  'asset_storage_setting.tos_region': string
+  'asset_storage_setting.tos_bucket': string
+  'asset_storage_setting.tos_public_base_url': string
+  'asset_storage_setting.tos_key_prefix': string
+  'asset_storage_setting.seedance_default_model': string
+  'asset_storage_setting.seedance_default_group_name': string
 }
 
 export type SecuritySettings = {

@@ -184,6 +184,11 @@ func ModelPriceHelperPerCall(c *gin.Context, info *relaycommon.RelayInfo) (types
 			if info.UserSetting.AcceptUnsetRatioModel {
 				acceptUnsetRatio = true
 			}
+			if !acceptUnsetRatio {
+				if rule, hasRule := ratio_setting.GetVideoPricingRule(info.OriginModelName); hasRule && rule.Enabled {
+					acceptUnsetRatio = true
+				}
+			}
 			if !ratioSuccess && !acceptUnsetRatio {
 				return types.PriceData{}, modelPriceNotConfiguredError(matchName, info.UserId)
 			}
@@ -192,8 +197,10 @@ func ModelPriceHelperPerCall(c *gin.Context, info *relaycommon.RelayInfo) (types
 
 	var quota int
 	freeModel := false
+	mapModelPriceUSD := 0.0
 
 	if usePrice {
+		mapModelPriceUSD = modelPrice
 		quota = int(modelPrice * common.QuotaPerUnit * groupRatioInfo.GroupRatio)
 		if !operation_setting.GetQuotaSetting().EnableFreeModelPreConsume {
 			if groupRatioInfo.GroupRatio == 0 || modelPrice == 0 {
@@ -214,12 +221,13 @@ func ModelPriceHelperPerCall(c *gin.Context, info *relaycommon.RelayInfo) (types
 	}
 
 	priceData := types.PriceData{
-		FreeModel:      freeModel,
-		ModelPrice:     modelPrice,
-		ModelRatio:     modelRatio,
-		UsePrice:       usePrice,
-		Quota:          quota,
-		GroupRatioInfo: groupRatioInfo,
+		FreeModel:        freeModel,
+		ModelPrice:       modelPrice,
+		MapModelPriceUSD: mapModelPriceUSD,
+		ModelRatio:       modelRatio,
+		UsePrice:         usePrice,
+		Quota:            quota,
+		GroupRatioInfo:   groupRatioInfo,
 	}
 	return priceData, nil
 }
@@ -229,6 +237,9 @@ func HasModelBillingConfig(modelName string) bool {
 		return true
 	}
 	if _, ok, _ := ratio_setting.GetModelRatio(modelName); ok {
+		return true
+	}
+	if rule, ok := ratio_setting.GetVideoPricingRule(modelName); ok && rule.Enabled {
 		return true
 	}
 	if billing_setting.GetBillingMode(modelName) != billing_setting.BillingModeTieredExpr {

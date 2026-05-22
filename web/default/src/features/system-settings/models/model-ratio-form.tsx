@@ -36,6 +36,7 @@ import { ModelRatioVisualEditor } from './model-ratio-visual-editor'
 
 type ModelFormValues = {
   ModelPrice: string
+  VideoPricingRules: string
   ModelRatio: string
   CacheRatio: string
   CreateCacheRatio: string
@@ -195,6 +196,25 @@ export const ModelRatioForm = memo(function ModelRatioForm({
                   <FormDescription>
                     {t(
                       'JSON map of model → multiplier applied to quota billing.'
+                    )}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='VideoPricingRules'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('Video pricing rules')}</FormLabel>
+                  <FormControl>
+                    <Textarea rows={8} {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    {t(
+                      'JSON map of video model → per-second pricing rules by resolution and audio mode.'
                     )}
                   </FormDescription>
                   <FormMessage />

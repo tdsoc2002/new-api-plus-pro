@@ -134,6 +134,17 @@ export const CHANNEL_TYPE_CONFIGS: Record<number, ChannelTypeConfig> = {
       baseUrl: 'Default: https://api.replicate.com',
     },
   },
+  59: {
+    id: 59,
+    name: CHANNEL_TYPES[59],
+    icon: 'doubao',
+    defaultBaseUrl: 'https://www.seedance2-pro.net/openapi/v1',
+    hints: {
+      key: 'Seedance API token',
+      models: 'seedance-2,seedance-2-fast',
+      baseUrl: 'Default: https://www.seedance2-pro.net/openapi/v1',
+    },
+  },
 }
 
 /**

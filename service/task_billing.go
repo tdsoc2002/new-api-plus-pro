@@ -22,6 +22,28 @@ func LogTaskConsumption(c *gin.Context, info *relaycommon.RelayInfo) {
 	// 支持任务仅按次计费
 	if common.StringsContains(constant.TaskPricePatches, info.OriginModelName) {
 		logContent = fmt.Sprintf("%s，按次计费", logContent)
+	} else if info.PriceData.VideoComposite {
+		var parts []string
+		ratios := info.PriceData.OtherRatios
+		if s, ok := ratios["seconds"]; ok {
+			parts = append(parts, fmt.Sprintf("时长: %.0fs", s))
+		}
+		if info.TaskRelayInfo != nil && info.TaskRelayInfo.VideoBilling.ResolutionKey != "" {
+			parts = append(parts, fmt.Sprintf("分辨率: %s", info.TaskRelayInfo.VideoBilling.ResolutionKey))
+		}
+		if info.TaskRelayInfo != nil && info.TaskRelayInfo.VideoBilling.IncludeAudio != nil {
+			if *info.TaskRelayInfo.VideoBilling.IncludeAudio {
+				parts = append(parts, "音频: 有声")
+			} else {
+				parts = append(parts, "音频: 无声")
+			}
+		}
+		if u, ok := ratios["price_usd"]; ok {
+			parts = append(parts, fmt.Sprintf("USD: %.6f", u))
+		}
+		if len(parts) > 0 {
+			logContent = fmt.Sprintf("%s, 视频复合计费：%s", logContent, strings.Join(parts, ", "))
+		}
 	} else {
 		if len(info.PriceData.OtherRatios) > 0 {
 			var contents []string
@@ -49,6 +71,23 @@ func LogTaskConsumption(c *gin.Context, info *relaycommon.RelayInfo) {
 	if info.IsModelMapped {
 		other["is_model_mapped"] = true
 		other["upstream_model_name"] = info.UpstreamModelName
+	}
+	if info.PriceData.VideoComposite {
+		other["video_composite"] = true
+		if info.TaskRelayInfo != nil {
+			if info.TaskRelayInfo.VideoBilling.ResolutionKey != "" {
+				other["resolution"] = info.TaskRelayInfo.VideoBilling.ResolutionKey
+			}
+			if info.TaskRelayInfo.VideoBilling.IncludeAudio != nil {
+				other["include_audio"] = *info.TaskRelayInfo.VideoBilling.IncludeAudio
+			}
+		}
+		if s, ok := info.PriceData.OtherRatios["seconds"]; ok {
+			other["seconds"] = s
+		}
+		if u, ok := info.PriceData.OtherRatios["price_usd"]; ok {
+			other["price_usd"] = u
+		}
 	}
 	model.RecordConsumeLog(c, info.UserId, model.RecordConsumeLogParams{
 		ChannelId: info.ChannelId,

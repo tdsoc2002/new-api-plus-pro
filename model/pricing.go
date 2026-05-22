@@ -16,26 +16,28 @@ import (
 )
 
 type Pricing struct {
-	ModelName              string                  `json:"model_name"`
-	Description            string                  `json:"description,omitempty"`
-	Icon                   string                  `json:"icon,omitempty"`
-	Tags                   string                  `json:"tags,omitempty"`
-	VendorID               int                     `json:"vendor_id,omitempty"`
-	QuotaType              int                     `json:"quota_type"`
-	ModelRatio             float64                 `json:"model_ratio"`
-	ModelPrice             float64                 `json:"model_price"`
-	OwnerBy                string                  `json:"owner_by"`
-	CompletionRatio        float64                 `json:"completion_ratio"`
-	CacheRatio             *float64                `json:"cache_ratio,omitempty"`
-	CreateCacheRatio       *float64                `json:"create_cache_ratio,omitempty"`
-	ImageRatio             *float64                `json:"image_ratio,omitempty"`
-	AudioRatio             *float64                `json:"audio_ratio,omitempty"`
-	AudioCompletionRatio   *float64                `json:"audio_completion_ratio,omitempty"`
-	EnableGroup            []string                `json:"enable_groups"`
-	SupportedEndpointTypes []constant.EndpointType `json:"supported_endpoint_types"`
-	BillingMode            string                  `json:"billing_mode,omitempty"`
-	BillingExpr            string                  `json:"billing_expr,omitempty"`
-	PricingVersion         string                  `json:"pricing_version,omitempty"`
+	ModelName              string                                  `json:"model_name"`
+	Description            string                                  `json:"description,omitempty"`
+	Icon                   string                                  `json:"icon,omitempty"`
+	Tags                   string                                  `json:"tags,omitempty"`
+	VendorID               int                                     `json:"vendor_id,omitempty"`
+	QuotaType              int                                     `json:"quota_type"`
+	ModelRatio             float64                                 `json:"model_ratio"`
+	ModelPrice             float64                                 `json:"model_price"`
+	OwnerBy                string                                  `json:"owner_by"`
+	CompletionRatio        float64                                 `json:"completion_ratio"`
+	CacheRatio             *float64                                `json:"cache_ratio,omitempty"`
+	CreateCacheRatio       *float64                                `json:"create_cache_ratio,omitempty"`
+	ImageRatio             *float64                                `json:"image_ratio,omitempty"`
+	AudioRatio             *float64                                `json:"audio_ratio,omitempty"`
+	AudioCompletionRatio   *float64                                `json:"audio_completion_ratio,omitempty"`
+	EnableGroup            []string                                `json:"enable_groups"`
+	SupportedEndpointTypes []constant.EndpointType                 `json:"supported_endpoint_types"`
+	BillingMode            string                                  `json:"billing_mode,omitempty"`
+	BillingExpr            string                                  `json:"billing_expr,omitempty"`
+	PricingVersion         string                                  `json:"pricing_version,omitempty"`
+	VideoTierHints         *ratio_setting.VideoTierHints           `json:"video_tier_hints,omitempty"`
+	PlazaVideoPerSecond    []ratio_setting.PlazaVideoPerSecondTier `json:"plaza_video_per_second,omitempty"`
 }
 
 type PricingVendor struct {
@@ -105,6 +107,22 @@ func GetModelSupportEndpointTypes(model string) []constant.EndpointType {
 		return endpoints
 	}
 	return make([]constant.EndpointType, 0)
+}
+
+func computePlazaVideoReferenceUSD(modelName string) float64 {
+	var base float64
+	if mp, ok := ratio_setting.GetModelPrice(modelName, false); ok && mp >= 0 {
+		base = mp
+	}
+	rule, ok := ratio_setting.GetVideoPricingRule(modelName)
+	if !ok || !rule.Enabled {
+		return base
+	}
+	sec := rule.DefaultSeconds
+	if sec <= 0 {
+		sec = 4
+	}
+	return ratio_setting.ComputeVideoPricingUSD(rule, base, sec, "", nil)
 }
 
 func updatePricing() {
@@ -336,6 +354,44 @@ func updatePricing() {
 				pricing.BillingMode = billingMode
 				pricing.BillingExpr = expr
 			}
+		}
+		if hints := ratio_setting.BuildVideoTierHints(model); hints != nil {
+			pricing.VideoTierHints = hints
+		}
+		if tiers := ratio_setting.BuildPlazaVideoPerSecondTiers(model); len(tiers) > 0 {
+			pricing.PlazaVideoPerSecond = tiers
+			if pricing.ModelPrice == 0 && pricing.ModelRatio == 0 {
+				pricing.ModelPrice = computePlazaVideoReferenceUSD(model)
+				pricing.QuotaType = 1
+			}
+		}
+		pricingMap = append(pricingMap, pricing)
+	}
+
+	included := make(map[string]struct{}, len(pricingMap))
+	for _, p := range pricingMap {
+		included[p.ModelName] = struct{}{}
+	}
+	for modelName, rule := range ratio_setting.VideoPricingRulesReadAll() {
+		if !rule.Enabled {
+			continue
+		}
+		if _, ok := included[modelName]; ok {
+			continue
+		}
+		hints := ratio_setting.BuildVideoTierHints(modelName)
+		if hints == nil {
+			continue
+		}
+		pricing := Pricing{
+			ModelName:      modelName,
+			QuotaType:      1,
+			ModelPrice:     computePlazaVideoReferenceUSD(modelName),
+			EnableGroup:    []string{},
+			VideoTierHints: hints,
+		}
+		if tiers := ratio_setting.BuildPlazaVideoPerSecondTiers(modelName); len(tiers) > 0 {
+			pricing.PlazaVideoPerSecond = tiers
 		}
 		pricingMap = append(pricingMap, pricing)
 	}

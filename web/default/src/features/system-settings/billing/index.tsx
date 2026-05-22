@@ -39,6 +39,7 @@ const defaultBillingSettings: BillingSettings = {
   DisplayInCurrencyEnabled: true,
   DisplayTokenStatEnabled: true,
   ModelPrice: '',
+  VideoPricingRules: '{}',
   ModelRatio: '',
   CacheRatio: '',
   CreateCacheRatio: '',

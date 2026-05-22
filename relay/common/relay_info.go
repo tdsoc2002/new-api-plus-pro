@@ -658,6 +658,12 @@ func (info *RelayInfo) HasSendResponse() bool {
 	return info.FirstResponseTime.After(info.StartTime)
 }
 
+// VideoBillingMeta 视频计费维度（分辨率键、是否含音频），供复合定价规则匹配分辨率分档与无声折扣。
+type VideoBillingMeta struct {
+	ResolutionKey string
+	IncludeAudio  *bool
+}
+
 type TaskRelayInfo struct {
 	Action       string
 	OriginTaskID string
@@ -671,6 +677,8 @@ type TaskRelayInfo struct {
 	// a specific channel (e.g., remix on origin task's channel). Stored as any
 	// to avoid an import cycle with model; callers type-assert to *model.Channel.
 	LockedChannel any
+
+	VideoBilling VideoBillingMeta
 }
 
 type TaskSubmitReq struct {

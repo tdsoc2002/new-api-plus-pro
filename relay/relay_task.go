@@ -178,11 +178,20 @@ func RelayTaskSubmit(c *gin.Context, info *relaycommon.RelayInfo) (*TaskSubmitRe
 
 	// 4. 价格计算：基础模型价格
 	info.OriginModelName = modelName
+	preOtherRatios := map[string]float64{}
+	if info.PriceData.OtherRatios != nil {
+		for k, v := range info.PriceData.OtherRatios {
+			preOtherRatios[k] = v
+		}
+	}
 	priceData, err := helper.ModelPriceHelperPerCall(c, info)
 	if err != nil {
 		return nil, service.TaskErrorWrapper(err, "model_price_error", http.StatusBadRequest)
 	}
 	info.PriceData = priceData
+	for k, v := range preOtherRatios {
+		info.PriceData.AddOtherRatio(k, v)
+	}
 
 	// 5. 计费估算：让适配器根据用户请求提供 OtherRatios（时长、分辨率等）
 	//    必须在 ModelPriceHelperPerCall 之后调用（它会重建 PriceData）。
@@ -193,8 +202,10 @@ func RelayTaskSubmit(c *gin.Context, info *relaycommon.RelayInfo) (*TaskSubmitRe
 		}
 	}
 
+	compositeApplied := helper.ApplyVideoCompositeQuota(info, modelName)
+
 	// 6. 将 OtherRatios 应用到基础额度
-	if !common.StringsContains(constant.TaskPricePatches, modelName) {
+	if !compositeApplied && !common.StringsContains(constant.TaskPricePatches, modelName) {
 		for _, ra := range info.PriceData.OtherRatios {
 			if ra != 1.0 {
 				info.PriceData.Quota = int(float64(info.PriceData.Quota) * ra)
@@ -242,7 +253,19 @@ func RelayTaskSubmit(c *gin.Context, info *relaycommon.RelayInfo) (*TaskSubmitRe
 
 	// 11. 提交后计费调整：让适配器根据上游实际返回调整 OtherRatios
 	finalQuota := info.PriceData.Quota
-	if adjustedRatios := adaptor.AdjustBillingOnSubmit(info, taskData); len(adjustedRatios) > 0 {
+	if info.PriceData.VideoComposite {
+		if adjustedRatios := adaptor.AdjustBillingOnSubmit(info, taskData); len(adjustedRatios) > 0 {
+			if s, ok := adjustedRatios["seconds"]; ok && s > 0 {
+				if info.PriceData.OtherRatios == nil {
+					info.PriceData.OtherRatios = make(map[string]float64)
+				}
+				info.PriceData.OtherRatios["seconds"] = s
+			}
+			if helper.ApplyVideoCompositeQuota(info, modelName) {
+				finalQuota = info.PriceData.Quota
+			}
+		}
+	} else if adjustedRatios := adaptor.AdjustBillingOnSubmit(info, taskData); len(adjustedRatios) > 0 {
 		// 基于调整后的 ratios 重新计算 quota
 		finalQuota = recalcQuotaFromRatios(info, adjustedRatios)
 		info.PriceData.OtherRatios = adjustedRatios

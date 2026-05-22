@@ -43,6 +43,7 @@ const defaultModelSettings: ModelSettings = {
   'grok.violation_deduction_enabled': true,
   'grok.violation_deduction_amount': 0.05,
   ModelPrice: '',
+  VideoPricingRules: '{}',
   ModelRatio: '',
   CacheRatio: '',
   CreateCacheRatio: '',
