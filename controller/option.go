@@ -94,7 +94,10 @@ func GetOptions(c *gin.Context) {
 			strings.HasSuffix(k, "Secret") ||
 			strings.HasSuffix(k, "Key") ||
 			strings.HasSuffix(k, "secret") ||
-			strings.HasSuffix(k, "api_key")
+			strings.HasSuffix(k, "api_key") ||
+			strings.Contains(k, "access_key") ||
+			strings.Contains(k, "secret_key") ||
+			strings.Contains(k, "security_token")
 		if isSensitiveKey && !isVisiblePublicKeyOption(k) {
 			continue
 		}

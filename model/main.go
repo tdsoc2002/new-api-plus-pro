@@ -285,6 +285,9 @@ func migrateDB() error {
 		&OAuthAuthorizationCode{},
 		&OAuthAccessToken{},
 		&OAuthUserConsent{},
+		&SeedanceAssetGroup{},
+		&SeedanceAsset{},
+		&UserAssetStorage{},
 	)
 	if err != nil {
 		return err
@@ -338,6 +341,9 @@ func migrateDBFast() error {
 		{&OAuthAuthorizationCode{}, "OAuthAuthorizationCode"},
 		{&OAuthAccessToken{}, "OAuthAccessToken"},
 		{&OAuthUserConsent{}, "OAuthUserConsent"},
+		{&SeedanceAssetGroup{}, "SeedanceAssetGroup"},
+		{&SeedanceAsset{}, "SeedanceAsset"},
+		{&UserAssetStorage{}, "UserAssetStorage"},
 	}
 	// 动态计算migration数量，确保errChan缓冲区足够大
 	errChan := make(chan error, len(migrations))
