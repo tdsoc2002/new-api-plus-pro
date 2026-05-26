@@ -3,77 +3,119 @@ name: Deploy to Production
 on:
   push:
     branches: [main]
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
 
 jobs:
-  # 构建并部署（跳过测试以加快部署速度）
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker image
-        run: |
-          VERSION=$(git rev-parse --short HEAD)
-          docker build -t new-api:$VERSION -t new-api:latest .
-          docker save new-api:latest | gzip > new-api.tar.gz
-
-      - name: Copy files to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "new-api.tar.gz,docker-compose.prod.yml"
-          target: "/opt/new-api"
-
       - name: Deploy on server
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
+          port: ${{ secrets.SERVER_PORT || '22' }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          command_timeout: 60m
           script: |
-            set -e
-            cd /opt/new-api
+            set -euo pipefail
 
-            echo "=== 加载新镜像 ==="
-            docker load < new-api.tar.gz
-            rm -f new-api.tar.gz
+            APP_DIR="/opt/new-api"
+            REPO_DIR="${APP_DIR}"
+            REPO_URL="https://github.com/tdsoc2002/new-api-plus-pro.git"
+            DEPLOY_VERSION="${{ github.sha }}"
+            DEPLOY_VERSION="$(printf '%.7s' "${DEPLOY_VERSION}")"
+            SUDO_PASSWORD='${{ secrets.SERVER_PASSWORD }}'
 
-            echo "=== 更新版本号 ==="
-            VERSION=$(git rev-parse --short HEAD 2>/dev/null || echo "latest")
-            sed -i "s/VERSION=.*/VERSION=$VERSION/" .env 2>/dev/null || echo "VERSION=$VERSION" >> .env
-
-            echo "=== 停止旧容器 ==="
-            docker-compose -f docker-compose.prod.yml down
-
-            echo "=== 启动新容器 ==="
-            docker-compose -f docker-compose.prod.yml up -d
-
-            echo "=== 等待服务启动 ==="
-            sleep 10
-
-            echo "=== 健康检查 ==="
-            for i in {1..30}; do
-              if curl -f http://localhost:3000/api/status 2>/dev/null | grep -q '"success":true'; then
-                echo "✓ 服务启动成功"
-                break
+            sudo_cmd() {
+              if sudo -n true >/dev/null 2>&1; then
+                sudo "$@"
+              else
+                printf '%s\n' "${SUDO_PASSWORD}" | sudo -S "$@"
               fi
-              if [ $i -eq 30 ]; then
-                echo "✗ 健康检查失败，回滚..."
-                docker-compose -f docker-compose.prod.yml logs --tail=50
+            }
+
+            compose_cmd() {
+              if docker compose version >/dev/null 2>&1; then
+                docker compose "$@"
+              elif command -v docker-compose >/dev/null 2>&1; then
+                docker-compose "$@"
+              else
+                echo "Docker Compose is not installed. Please install docker compose plugin or docker-compose." >&2
                 exit 1
               fi
-              echo "等待服务启动... ($i/30)"
+            }
+
+            echo "=== Check Docker ==="
+            if ! command -v docker >/dev/null 2>&1; then
+              echo "Docker is not installed. Please install Docker on the production server first." >&2
+              exit 1
+            fi
+            sudo_cmd systemctl start docker || true
+
+            echo "=== Prepare directories ==="
+            sudo_cmd mkdir -p "${APP_DIR}/data" "${APP_DIR}/logs" "${REPO_DIR}"
+            sudo_cmd chown -R "${USER}:${USER}" "${APP_DIR}"
+
+            echo "=== Fetch source ==="
+            if [ ! -d "${REPO_DIR}/.git" ]; then
+              git clone --depth=1 "${REPO_URL}" "${REPO_DIR}"
+            fi
+            cd "${REPO_DIR}"
+            git remote set-url origin "${REPO_URL}"
+            git fetch --depth=1 origin main
+            git checkout -B main FETCH_HEAD
+            git reset --hard FETCH_HEAD
+
+            echo "=== Prepare environment ==="
+            if [ ! -f "${APP_DIR}/.env" ]; then
+              {
+                echo "VERSION=${DEPLOY_VERSION}"
+                echo "SESSION_SECRET=$(openssl rand -hex 32)"
+                echo "REDIS_PASSWORD=$(openssl rand -base64 32 | tr -d '=+/')"
+                echo "APP_ENV_FILE=${APP_DIR}/.env"
+                echo "APP_DATA_DIR=${APP_DIR}/data"
+                echo "APP_LOG_DIR=${APP_DIR}/logs"
+                echo "SQLITE_PATH=/data/one-api.db?_busy_timeout=30000"
+                echo "TZ=Asia/Shanghai"
+                echo "ERROR_LOG_ENABLED=true"
+                echo "BATCH_UPDATE_ENABLED=true"
+                echo "MEMORY_CACHE_ENABLED=true"
+                echo "NODE_NAME=new-api-prod"
+              } > "${APP_DIR}/.env"
+            else
+              grep -q '^VERSION=' "${APP_DIR}/.env" && sed -i "s/^VERSION=.*/VERSION=${DEPLOY_VERSION}/" "${APP_DIR}/.env" || echo "VERSION=${DEPLOY_VERSION}" >> "${APP_DIR}/.env"
+              grep -q '^SESSION_SECRET=' "${APP_DIR}/.env" || echo "SESSION_SECRET=$(openssl rand -hex 32)" >> "${APP_DIR}/.env"
+              grep -q '^REDIS_PASSWORD=' "${APP_DIR}/.env" || echo "REDIS_PASSWORD=$(openssl rand -base64 32 | tr -d '=+/')" >> "${APP_DIR}/.env"
+              grep -q '^APP_ENV_FILE=' "${APP_DIR}/.env" && sed -i "s|^APP_ENV_FILE=.*|APP_ENV_FILE=${APP_DIR}/.env|" "${APP_DIR}/.env" || echo "APP_ENV_FILE=${APP_DIR}/.env" >> "${APP_DIR}/.env"
+              grep -q '^APP_DATA_DIR=' "${APP_DIR}/.env" && sed -i "s|^APP_DATA_DIR=.*|APP_DATA_DIR=${APP_DIR}/data|" "${APP_DIR}/.env" || echo "APP_DATA_DIR=${APP_DIR}/data" >> "${APP_DIR}/.env"
+              grep -q '^APP_LOG_DIR=' "${APP_DIR}/.env" && sed -i "s|^APP_LOG_DIR=.*|APP_LOG_DIR=${APP_DIR}/logs|" "${APP_DIR}/.env" || echo "APP_LOG_DIR=${APP_DIR}/logs" >> "${APP_DIR}/.env"
+              grep -q '^SQLITE_PATH=' "${APP_DIR}/.env" && sed -i "s|^SQLITE_PATH=.*|SQLITE_PATH=/data/one-api.db?_busy_timeout=30000|" "${APP_DIR}/.env" || echo "SQLITE_PATH=/data/one-api.db?_busy_timeout=30000" >> "${APP_DIR}/.env"
+              grep -q '^TZ=' "${APP_DIR}/.env" || echo "TZ=Asia/Shanghai" >> "${APP_DIR}/.env"
+              grep -q '^ERROR_LOG_ENABLED=' "${APP_DIR}/.env" || echo "ERROR_LOG_ENABLED=true" >> "${APP_DIR}/.env"
+              grep -q '^BATCH_UPDATE_ENABLED=' "${APP_DIR}/.env" || echo "BATCH_UPDATE_ENABLED=true" >> "${APP_DIR}/.env"
+              grep -q '^MEMORY_CACHE_ENABLED=' "${APP_DIR}/.env" || echo "MEMORY_CACHE_ENABLED=true" >> "${APP_DIR}/.env"
+              grep -q '^NODE_NAME=' "${APP_DIR}/.env" || echo "NODE_NAME=new-api-prod" >> "${APP_DIR}/.env"
+            fi
+
+            echo "=== Build and restart containers ==="
+            compose_cmd --env-file "${APP_DIR}/.env" -f "${REPO_DIR}/docker-compose.prod.yml" up -d --build --remove-orphans
+
+            echo "=== Health check ==="
+            for i in $(seq 1 60); do
+              if curl -fsS "http://localhost:3000/api/status" | grep -q '"success":true'; then
+                echo "service healthy"
+                compose_cmd --env-file "${APP_DIR}/.env" -f "${REPO_DIR}/docker-compose.prod.yml" ps
+                exit 0
+              fi
+              echo "waiting service ${i}/60"
               sleep 2
             done
 
-            echo "=== 清理旧镜像 ==="
-            docker image prune -af --filter "until=24h"
-
-            echo "=== 部署完成 ==="
-            docker-compose -f docker-compose.prod.yml ps
+            compose_cmd --env-file "${APP_DIR}/.env" -f "${REPO_DIR}/docker-compose.prod.yml" logs --tail=120
+            exit 1
