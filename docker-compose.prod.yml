@@ -1,14 +1,14 @@
 # New-API Docker Compose - 生产环境配置（2GB 内存优化版）
 #
 # 优化说明：
-#   - 在生产机本地构建镜像
+#   - 使用官方镜像（calciumion/new-api）
 #   - Redis 限制内存 100MB
 #   - 应用限制内存 512MB
 #   - 使用 SQLite（默认）
 #
 # 部署步骤：
-#   1. 确保 /opt/new-api/.env 文件已配置
-#   2. docker compose --env-file /opt/new-api/.env -f docker-compose.prod.yml up -d --build
+#   1. 确保 .env 文件已配置
+#   2. docker-compose -f docker-compose.prod.yml up -d
 #   3. 访问 http://your-server-ip:3000
 
 version: '3.8'
@@ -20,20 +20,18 @@ services:
     container_name: new-api
     restart: unless-stopped
     command: --log-dir /app/logs
-    env_file:
-      - ${APP_ENV_FILE:-/opt/new-api/.env}
     ports:
       - "3000:3000"
     volumes:
-      - ${APP_DATA_DIR:-./data}:/data
-      - ${APP_LOG_DIR:-./logs}:/app/logs
+      - ./data:/data
+      - ./logs:/app/logs
     environment:
       - REDIS_CONN_STRING=redis://:${REDIS_PASSWORD}@redis:6379
       - SESSION_SECRET=${SESSION_SECRET}
-      - TZ=${TZ:-Asia/Shanghai}
-      - ERROR_LOG_ENABLED=${ERROR_LOG_ENABLED:-true}
-      - BATCH_UPDATE_ENABLED=${BATCH_UPDATE_ENABLED:-true}
-      - NODE_NAME=${NODE_NAME:-new-api-prod}
+      - TZ=Asia/Shanghai
+      - ERROR_LOG_ENABLED=true
+      - BATCH_UPDATE_ENABLED=true
+      - NODE_NAME=new-api-prod
     depends_on:
       - redis
     networks:
