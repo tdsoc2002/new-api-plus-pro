@@ -51,6 +51,17 @@ jobs:
               fi
             }
 
+            git_retry() {
+              for attempt in 1 2 3; do
+                if "$@"; then
+                  return 0
+                fi
+                echo "git command failed, retrying ${attempt}/3"
+                sleep $((attempt * 5))
+              done
+              "$@"
+            }
+
             echo "=== Check Docker ==="
             if ! command -v docker >/dev/null 2>&1; then
               echo "Docker is not installed. Please install Docker on the production server first." >&2
@@ -63,12 +74,13 @@ jobs:
             sudo_cmd chown -R "${USER}:${USER}" "${APP_DIR}"
 
             echo "=== Fetch source ==="
+            git config --global http.version HTTP/1.1 || true
             if [ ! -d "${REPO_DIR}/.git" ]; then
-              git clone --depth=1 "${REPO_URL}" "${REPO_DIR}"
+              git_retry git clone --depth=1 "${REPO_URL}" "${REPO_DIR}"
             fi
             cd "${REPO_DIR}"
             git remote set-url origin "${REPO_URL}"
-            git fetch --depth=1 origin main
+            git_retry git fetch --depth=1 origin main
             git checkout -B main FETCH_HEAD
             git reset --hard FETCH_HEAD
 
